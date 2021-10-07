@@ -16,6 +16,7 @@ namespace Solitaire
 
         Sprite faceUpSprite;
         SpriteRenderer spriteRenderer;
+        CardMovement cardMover;
 
         public event Action OnCardPicked;
         public event Action OnCardPlaced;
@@ -24,9 +25,10 @@ namespace Solitaire
         {
             card = c;
             spriteRenderer = GetComponent<SpriteRenderer>();
+            cardMover = GetComponent<CardMovement>();
             faceUpSprite = CardManager.Instance.GetSprite(c);
         }
-
+        
         public void TurnFaceUp()
         {
             isFlipped = true;
@@ -41,6 +43,11 @@ namespace Solitaire
         bool HasChildren()
         {
             return transform.childCount != 0;
+        }
+
+        public void SetTargetPosition(Vector3 position)
+        {
+            cardMover.SetNewTargetPosition(position);
         }
 
         public void Drag(Vector2 updatedPosition)
@@ -96,7 +103,7 @@ namespace Solitaire
 
         void ResetPosition()
         {
-            transform.position = homePosition;
+            SetTargetPosition(homePosition);
         }
 
         void SetLayer(int layerIndex)

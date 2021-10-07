@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4225588915119807630}
   - component: {fileID: 1414872920777088591}
   - component: {fileID: 5697730130931426383}
+  - component: {fileID: 3283274794801182421}
   m_Layer: 0
   m_Name: Card
   m_TagString: Untagged
@@ -143,3 +144,16 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 68564577ed13b11458842c5dae56291c, type: 3}
     volume: 0.5
     pitch: 1
+--- !u!114 &3283274794801182421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4225588915119807626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22d508f0fde0eea49abe398e3ef288f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 15

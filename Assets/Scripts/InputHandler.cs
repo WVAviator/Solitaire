@@ -6,6 +6,8 @@ namespace Solitaire
     {
         [SerializeField] float minimumDragDistance = 10;
 
+        bool inputAllowed = true;
+
         Camera cam;
         bool isDragging;
         Vector2 currentPoint;
@@ -15,10 +17,17 @@ namespace Solitaire
         void Awake()
         {
             cam = Camera.main;
+            GameManager.OnNewGameDealing += DisableInput;
+            GameManager.OnNewGameDealt += EnableInput;
         }
+
+        void DisableInput() => inputAllowed = false;
+        void EnableInput() => inputAllowed = true;
 
         void Update()
         {
+            if (!inputAllowed) return;
+            
             SetCurrentPointerLocation();
 
             if (Input.GetMouseButtonDown(0))

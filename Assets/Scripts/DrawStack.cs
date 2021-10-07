@@ -28,13 +28,27 @@ namespace Solitaire
 
         void ReorganizeExistingCards()
         {
-            foreach (PlayingCard card in PlayingCardsInStack) card.transform.position = transform.position;
+            foreach (PlayingCard card in PlayingCardsInStack)
+            {
+                Vector3 newPosition;
+                newPosition.x = transform.position.x;
+                newPosition.y = transform.position.y;
+                newPosition.z = -0.01f * PlayingCardsInStack.Count;
+                
+                card.SetTargetPosition(newPosition);
+            }
         }
 
         protected override void SetPosition(PlayingCard card)
         {
             int positionInDraw = currentDrawSize - currentDrawAmount--;
-            card.transform.position = transform.position - new Vector3(0, positionInDraw * CardSpacing, 0);
+            
+            Vector3 targetPosition;
+            targetPosition.x = transform.position.x;
+            targetPosition.y = transform.position.y - positionInDraw * CardSpacing;
+            targetPosition.z = -0.01f * PlayingCardsInStack.Count;
+
+            card.SetTargetPosition(targetPosition);
         }
 
         public Stack<Card> GetResetStack()

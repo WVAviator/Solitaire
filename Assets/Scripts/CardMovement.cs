@@ -1,0 +1,34 @@
+using UnityEngine;
+
+public class CardMovement : MonoBehaviour
+{
+    [SerializeField] float moveSpeed = 1;
+    bool moveTowardsTarget;
+    Vector3 targetPosition;
+
+    void Update()
+    {
+        if (transform.position == targetPosition || moveTowardsTarget == false)
+        {
+            moveTowardsTarget = false;
+            return;
+        }
+        
+        Move(targetPosition);
+    }
+
+    void Move(Vector3 target)
+    {
+        transform.position = 
+            Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
+
+        if ((transform.position - target).sqrMagnitude < 0.001f) transform.position = target;
+
+    }
+
+    public void SetNewTargetPosition(Vector3 position)
+    {
+        targetPosition = position;
+        moveTowardsTarget = true;
+    }
+}

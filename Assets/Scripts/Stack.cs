@@ -10,7 +10,6 @@ namespace Solitaire
         protected readonly List<PlayingCard> PlayingCardsInStack = new List<PlayingCard>();
         [SerializeField] protected float CardSpacing = 0.35f;
 
-        
 
         public void Transfer(PlayingCard card, Stack oldStack)
         {
@@ -24,41 +23,31 @@ namespace Solitaire
         {
             card.SetCurrentStack(this);
 
-            SetPosition(card);
             SetParent(card);
+            
+            SetPosition(card);
+            
 
             PlayingCardsInStack.Add(card);
-            FixCardDisplayOrder();
         }
 
         protected virtual void SetPosition(PlayingCard card)
         {
-            if (PlayingCardsInStack.Count == 0)
-            {
-                card.transform.position = transform.position;
-            }
-            else
-            {
-                card.transform.position =
-                    PlayingCardsInStack.Last().transform.position - new Vector3(0, CardSpacing, 0);
-            }
+            Vector3 cardPosition;
+
+            cardPosition.x = transform.position.x;
+            cardPosition.y = transform.position.y - CardSpacing * PlayingCardsInStack.Count;
+            cardPosition.z = -0.01f * PlayingCardsInStack.Count;
+            
+            card.SetTargetPosition(cardPosition);
         }
 
-        void SetParent(PlayingCard card)
+        public void SetParent(PlayingCard card)
         {
             Transform parent = null;
+            int index = 0;
             if (PlayingCardsInStack.Count > 0) parent = PlayingCardsInStack.Last().transform;
             card.transform.parent = parent;
-        }
-
-        void FixCardDisplayOrder()
-        {
-            for (int i = 0; i < PlayingCardsInStack.Count; i++)
-            {
-                float zPos = i * -0.01f;
-                Vector3 pos = PlayingCardsInStack[i].transform.position;
-                PlayingCardsInStack[i].transform.position = new Vector3(pos.x, pos.y, zPos);
-            }
         }
 
         void RemoveCard(PlayingCard card)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 
@@ -9,7 +10,9 @@ namespace Solitaire
         PlayingDeck activeDeck;
 
         public static event Action OnGameWin;
+        public static event Action OnNewGameDealing;
         public static event Action OnNewGameDealt;
+        
         UpperStack[] upperStacks;
 
         [SerializeField] PlayingDeck deckPrefab;
@@ -35,9 +38,11 @@ namespace Solitaire
         {
             ClearTable();
             CreateNewPlayingDeck();
-            DealMainStacks();
+            OnNewGameDealing?.Invoke();
+            StartCoroutine(DealMainStacks());
             OnNewGameDealt?.Invoke();
         }
+        
 
         void ClearTable()
         {
@@ -70,7 +75,7 @@ namespace Solitaire
             activeDeck = Instantiate(deckPrefab, deckLocation, Quaternion.identity);
         }
 
-        void DealMainStacks()
+        IEnumerator DealMainStacks()
         {
             MainStack[] mainStacks = GameBoard.Instance.MainStacks.ToArray();
             for (int i = 0; i < 7; i++)
@@ -78,10 +83,11 @@ namespace Solitaire
                 for (int j = i; j < 7; j++)
                 {
                     PlayingCard newCard =
-                        Instantiate(cardPrefab, mainStacks[j].transform.position, Quaternion.identity);
+                        Instantiate(cardPrefab, GameBoard.Instance.DeckLocation, Quaternion.identity);
                     newCard.SetCard(activeDeck.DrawCard());
                     mainStacks[j].AddCard(newCard);
                     if (i == j) newCard.TurnFaceUp();
+                    yield return new WaitForSeconds(0.05f);
                 }
             }
         }
