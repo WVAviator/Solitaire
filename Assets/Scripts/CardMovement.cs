@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CardMovement : MonoBehaviour
@@ -6,11 +7,15 @@ public class CardMovement : MonoBehaviour
     bool moveTowardsTarget;
     Vector3 targetPosition;
 
+    public static event Action OnCardMovementBegin;
+    public static event Action OnCardMovementEnd;
+
     void Update()
     {
-        if (transform.position == targetPosition || moveTowardsTarget == false)
+        if (!moveTowardsTarget) return;
+        if (transform.position == targetPosition)
         {
-            moveTowardsTarget = false;
+            OnCardMovementEnd?.Invoke();
             return;
         }
         
@@ -30,5 +35,6 @@ public class CardMovement : MonoBehaviour
     {
         targetPosition = position;
         moveTowardsTarget = true;
+        OnCardMovementBegin?.Invoke();
     }
 }

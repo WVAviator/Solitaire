@@ -17,8 +17,11 @@ namespace Solitaire
         void Awake()
         {
             cam = Camera.main;
+            
             GameManager.OnNewGameDealing += DisableInput;
+            CardMovement.OnCardMovementBegin += DisableInput;
             GameManager.OnNewGameDealt += EnableInput;
+            CardMovement.OnCardMovementEnd += EnableInput;
         }
 
         void DisableInput() => inputAllowed = false;
@@ -61,6 +64,8 @@ namespace Solitaire
 
         void ProcessClick()
         {
+            FixPotentialStuckCollider();
+            
             if (clickedCollider == null) return;
             if (clickedCollider.TryGetComponent<IClickable>(out IClickable clickedSprite)) clickedSprite.Click();
         }
@@ -79,5 +84,12 @@ namespace Solitaire
             if (releaseCollider == null) releaseCollider = clickedCollider;
             if (clickedCollider.TryGetComponent<IDraggable>(out IDraggable dragged)) dragged.Release(releaseCollider);
         }
+        void FixPotentialStuckCollider()
+        {
+            Collider2D potentialStuckCollider =  Physics2D.OverlapPoint(currentPoint, 8);
+            if (potentialStuckCollider == null) return;
+            if (potentialStuckCollider.TryGetComponent(out IDraggable dragged)) dragged.Release(potentialStuckCollider);
+        }
+        
     }
 }

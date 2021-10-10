@@ -21,6 +21,7 @@ namespace Solitaire
         public event Action OnCardPicked;
         public event Action OnCardPlaced;
 
+
         public void SetCard(Card c)
         {
             card = c;
@@ -55,7 +56,7 @@ namespace Solitaire
             if (!isFlipped) return;
             if (IsInDrawStack() && HasChildren()) return;
 
-            SetHome();
+            //SetHome();
             if (!isBeingDragged) OnCardPicked?.Invoke();
             DragCard(updatedPosition);
         }
@@ -65,9 +66,9 @@ namespace Solitaire
             return currentStack.GetType() == typeof(DrawStack);
         }
 
-        void SetHome()
+        public void SetHome(Vector3 homePosition)
         {
-            if (!isBeingDragged) homePosition = transform.position;
+            this.homePosition = homePosition;
         }
 
         void DragCard(Vector2 updatedPosition)
