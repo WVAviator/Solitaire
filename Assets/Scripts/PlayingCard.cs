@@ -49,14 +49,14 @@ namespace Solitaire
         public void SetTargetPosition(Vector3 position)
         {
             cardMover.SetNewTargetPosition(position);
+            SetHome(position);
         }
 
         public void Drag(Vector2 updatedPosition)
         {
             if (!isFlipped) return;
             if (IsInDrawStack() && HasChildren()) return;
-
-            //SetHome();
+            
             if (!isBeingDragged) OnCardPicked?.Invoke();
             DragCard(updatedPosition);
         }

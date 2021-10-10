@@ -16,6 +16,7 @@ public class CardMovement : MonoBehaviour
         if (transform.position == targetPosition)
         {
             OnCardMovementEnd?.Invoke();
+            moveTowardsTarget = false;
             return;
         }
         

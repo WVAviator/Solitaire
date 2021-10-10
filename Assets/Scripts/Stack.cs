@@ -40,7 +40,6 @@ namespace Solitaire
             cardPosition.z = -0.01f * PlayingCardsInStack.Count;
             
             card.SetTargetPosition(cardPosition);
-            card.SetHome(cardPosition);
         }
 
         public void SetParent(PlayingCard card)

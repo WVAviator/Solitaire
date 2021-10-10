@@ -33,7 +33,7 @@ namespace Solitaire
                 Vector3 newPosition;
                 newPosition.x = transform.position.x;
                 newPosition.y = transform.position.y;
-                newPosition.z = -0.01f * PlayingCardsInStack.Count;
+                newPosition.z = -0.01f * PlayingCardsInStack.IndexOf(card);
                 
                 card.SetTargetPosition(newPosition);
             }
