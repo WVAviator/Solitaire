@@ -18,6 +18,8 @@ namespace Solitaire
         [SerializeField] PlayingDeck deckPrefab;
         [SerializeField] PlayingCard cardPrefab;
 
+        [SerializeField] float cardDealSpeed = 0.05f;
+
         void Awake()
         {
             UpperStack.OnCardAddedToUpperStack += CheckForWin;
@@ -29,6 +31,13 @@ namespace Solitaire
             if (!upperStacks.All(us => us.IsComplete())) return;
             ClearTable();
             OnGameWin?.Invoke();
+            StartCoroutine(DelayStartNewGame());
+        }
+
+        IEnumerator DelayStartNewGame()
+        {
+            yield return new WaitForSeconds(4);
+            DealNewGame();
         }
 
         void Start() => DealNewGame();
@@ -40,7 +49,6 @@ namespace Solitaire
             CreateNewPlayingDeck();
             OnNewGameDealing?.Invoke();
             StartCoroutine(DealMainStacks());
-            OnNewGameDealt?.Invoke();
         }
         
 
@@ -87,9 +95,10 @@ namespace Solitaire
                     newCard.SetCard(activeDeck.DrawCard());
                     mainStacks[j].AddCard(newCard);
                     if (i == j) newCard.TurnFaceUp();
-                    yield return new WaitForSeconds(0.05f);
+                    yield return new WaitForSeconds(cardDealSpeed);
                 }
             }
+            OnNewGameDealt?.Invoke();
         }
 
         public void QuitGame()

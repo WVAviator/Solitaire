@@ -66,7 +66,7 @@ namespace Solitaire
             return currentStack.GetType() == typeof(DrawStack);
         }
 
-        public void SetHome(Vector3 homePosition)
+        void SetHome(Vector3 homePosition)
         {
             this.homePosition = homePosition;
         }

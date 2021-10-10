@@ -42,7 +42,7 @@ namespace Solitaire
             card.SetTargetPosition(cardPosition);
         }
 
-        public void SetParent(PlayingCard card)
+        void SetParent(PlayingCard card)
         {
             Transform parent = null;
             int index = 0;
@@ -52,17 +52,8 @@ namespace Solitaire
 
         void RemoveCard(PlayingCard card)
         {
-            int numberOfCardsToRemove = PlayingCardsInStack.Count - PlayingCardsInStack.IndexOf(card);
-            if (numberOfCardsToRemove == PlayingCardsInStack.Count)
-            {
-                PlayingCardsInStack.Clear();
-                return;
-            }
-
-            for (int i = 0; i < numberOfCardsToRemove; i++)
-            {
-                PlayingCardsInStack.RemoveAt(PlayingCardsInStack.Count - 1);
-            }
+            foreach (PlayingCard c in card.GetComponentsInChildren<PlayingCard>()) PlayingCardsInStack.Remove(c);
+            PlayingCardsInStack.Remove(card);
         }
 
         public virtual bool CanAddCard(PlayingCard card)
