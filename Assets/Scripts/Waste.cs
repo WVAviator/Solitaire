@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Solitaire
 {
-    public class DrawStack : Stack
+    public class Waste : Stack
     {
         int currentDrawAmount;
         int currentDrawSize;

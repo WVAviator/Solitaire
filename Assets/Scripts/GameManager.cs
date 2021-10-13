@@ -7,23 +7,23 @@ namespace Solitaire
 {
     public class GameManager : MonoBehaviour
     {
-        PlayingDeck activeDeck;
+        Stock activeDeck;
 
         public static event Action OnGameWin;
         public static event Action OnNewGameDealing;
         public static event Action OnNewGameDealt;
         
-        UpperStack[] upperStacks;
+        Foundation[] upperStacks;
 
-        [SerializeField] PlayingDeck deckPrefab;
+        [SerializeField] Stock deckPrefab;
         [SerializeField] PlayingCard cardPrefab;
 
         [SerializeField] float cardDealSpeed = 0.05f;
 
         void Awake()
         {
-            UpperStack.OnCardAddedToUpperStack += CheckForWin;
-            upperStacks = FindObjectsOfType<UpperStack>();
+            Foundation.OnCardAddedToUpperStack += CheckForWin;
+            upperStacks = FindObjectsOfType<Foundation>();
         }
 
         void CheckForWin()
@@ -85,7 +85,7 @@ namespace Solitaire
 
         IEnumerator DealMainStacks()
         {
-            MainStack[] mainStacks = GameBoard.Instance.MainStacks.ToArray();
+            Tableau[] mainStacks = GameBoard.Instance.MainStacks.ToArray();
             for (int i = 0; i < 7; i++)
             {
                 for (int j = i; j < 7; j++)

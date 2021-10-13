@@ -13,6 +13,8 @@ namespace Solitaire
         Vector2 currentPoint;
         Vector2 clickedScreenPoint;
         Collider2D clickedCollider;
+        Vector2 clickedWorldPoint;
+        Vector2 colliderStartPoint;
 
         void Awake()
         {
@@ -36,7 +38,9 @@ namespace Solitaire
             if (Input.GetMouseButtonDown(0))
             {
                 clickedScreenPoint = Input.mousePosition;
+                clickedWorldPoint = cam.ScreenToWorldPoint(clickedScreenPoint);
                 clickedCollider = GetColliderUnderCursor();
+                if (clickedCollider != null) colliderStartPoint = clickedCollider.transform.position;
             }
 
             if (Input.GetMouseButtonUp(0))
@@ -62,6 +66,11 @@ namespace Solitaire
             return Physics2D.OverlapPoint(currentPoint, 1);
         }
 
+        Collider2D GetColliderUnderCollider()
+        {
+            return Physics2D.OverlapPoint(clickedCollider.transform.position, 1);
+        }
+
         void ProcessClick()
         {
             FixPotentialStuckCollider();
@@ -73,14 +82,15 @@ namespace Solitaire
         void ProcessDrag()
         {
             if (clickedCollider == null) return;
-            if (clickedCollider.TryGetComponent<IDraggable>(out IDraggable dragged)) dragged.Drag(currentPoint);
+            Vector2 clickedPositionOffset = clickedWorldPoint - colliderStartPoint;
+            if (clickedCollider.TryGetComponent<IDraggable>(out IDraggable dragged)) dragged.Drag(currentPoint, clickedPositionOffset);
         }
 
         void ProcessRelease()
         {
             if (clickedCollider == null) return;
 
-            Collider2D releaseCollider = GetColliderUnderCursor();
+            Collider2D releaseCollider = GetColliderUnderCollider();
             if (releaseCollider == null) releaseCollider = clickedCollider;
             if (clickedCollider.TryGetComponent<IDraggable>(out IDraggable dragged)) dragged.Release(releaseCollider);
         }

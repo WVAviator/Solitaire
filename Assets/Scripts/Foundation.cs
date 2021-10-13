@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Solitaire
 {
-    public class UpperStack : Stack
+    public class Foundation : Stack
     {
         public static event Action OnCardAddedToUpperStack = delegate { };
 

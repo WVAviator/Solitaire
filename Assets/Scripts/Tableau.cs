@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Solitaire
 {
-    public class MainStack : Stack
+    public class Tableau : Stack
     {
         public override void AddCard(PlayingCard card)
         {

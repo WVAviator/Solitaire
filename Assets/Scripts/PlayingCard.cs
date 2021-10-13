@@ -46,24 +46,25 @@ namespace Solitaire
             return transform.childCount != 0;
         }
 
-        public void SetTargetPosition(Vector3 position)
+        public void SetTargetPosition(Vector3 position, bool instant = false)
         {
-            cardMover.SetNewTargetPosition(position);
+            if (instant) transform.position = position;
+            else cardMover.SetNewTargetPosition(position);
             SetHome(position);
         }
 
-        public void Drag(Vector2 updatedPosition)
+        public void Drag(Vector2 updatedPosition, Vector2 clickedPositionOffset)
         {
             if (!isFlipped) return;
             if (IsInDrawStack() && HasChildren()) return;
             
             if (!isBeingDragged) OnCardPicked?.Invoke();
-            DragCard(updatedPosition);
+            DragCard(updatedPosition - clickedPositionOffset);
         }
 
         bool IsInDrawStack()
         {
-            return currentStack.GetType() == typeof(DrawStack);
+            return currentStack.GetType() == typeof(Waste);
         }
 
         void SetHome(Vector3 homePosition)

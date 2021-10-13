@@ -9,7 +9,7 @@ namespace Solitaire
 
         public Transform Deck;
 
-        public List<MainStack> MainStacks = new List<MainStack>();
+        public List<Tableau> MainStacks = new List<Tableau>();
         public Transform[] UpperStack;
 
         [HideInInspector] public Vector2 DeckLocation;
@@ -22,7 +22,7 @@ namespace Solitaire
 
             DeckLocation = Deck.position;
 
-            foreach (MainStack t in MainStacks) MainStackLocations.Add(t.transform.position);
+            foreach (Tableau t in MainStacks) MainStackLocations.Add(t.transform.position);
             foreach (Transform t in UpperStack) UpperStackLocations.Add(t.position);
         }
     }

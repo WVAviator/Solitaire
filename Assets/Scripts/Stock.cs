@@ -2,13 +2,13 @@
 
 namespace Solitaire
 {
-    public class PlayingDeck : MonoBehaviour, IClickable
+    public class Stock : MonoBehaviour, IClickable
     {
         public Deck Deck;
         public int drawCount = 3;
 
         [SerializeField] PlayingCard cardPrefab;
-        DrawStack drawStack;
+        Waste waste;
         SpriteRenderer spriteRenderer;
 
         void Awake()
@@ -19,7 +19,7 @@ namespace Solitaire
 
         void Start()
         {
-            drawStack = FindObjectOfType<DrawStack>();
+            waste = FindObjectOfType<Waste>();
         }
 
         public Card DrawCard()
@@ -46,12 +46,12 @@ namespace Solitaire
                 cards[i].TurnFaceUp();
             }
 
-            drawStack.RevealCards(cards);
+            waste.RevealCards(cards);
         }
 
         void RestackDeck()
         {
-            Deck = new Deck(drawStack.GetResetStack());
+            Deck = new Deck(waste.GetResetStack());
             spriteRenderer.enabled = Deck.CardsRemaining() > 0;
         }
     }

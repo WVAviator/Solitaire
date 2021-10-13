@@ -39,7 +39,7 @@ namespace Solitaire
             cardPosition.y = transform.position.y - CardSpacing * PlayingCardsInStack.Count;
             cardPosition.z = -0.01f * PlayingCardsInStack.Count;
             
-            card.SetTargetPosition(cardPosition);
+            card.SetTargetPosition(cardPosition, card.transform.childCount > 0);
         }
 
         void SetParent(PlayingCard card)

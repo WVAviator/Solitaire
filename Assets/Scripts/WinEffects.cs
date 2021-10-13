@@ -10,7 +10,7 @@ namespace Solitaire
         [SerializeField] ParticleSystem clubs;
         [SerializeField] ParticleSystem spades;
 
-        [SerializeField] UpperStack[] upperStacks;
+        [SerializeField] Foundation[] upperStacks;
 
         void Awake()
         {
@@ -49,7 +49,7 @@ namespace Solitaire
 
         void OrientEffectsToSuit()
         {
-            foreach (UpperStack up in upperStacks)
+            foreach (Foundation up in upperStacks)
             {
                 if (up.GetActiveSuit() == 0) hearts.transform.position = up.transform.position;
                 if (up.GetActiveSuit() == 1) diamonds.transform.position = up.transform.position;

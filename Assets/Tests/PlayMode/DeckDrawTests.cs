@@ -21,22 +21,22 @@ public class DeckDrawTests
     {
         yield return new WaitForSeconds(5);
 
-        PlayingDeck deck = Object.FindObjectOfType<PlayingDeck>();
-        DrawStack drawStack = Object.FindObjectOfType<DrawStack>();
+        Stock deck = Object.FindObjectOfType<Stock>();
+        Waste waste = Object.FindObjectOfType<Waste>();
         
         Assert.AreEqual(24, deck.Deck.CardsRemaining());
         
         deck.Click();
         Assert.AreEqual(24 - deck.drawCount, deck.Deck.CardsRemaining());
-        Assert.AreEqual(deck.drawCount, drawStack.CardsInStack());
+        Assert.AreEqual(deck.drawCount, waste.CardsInStack());
 
         while (deck.Deck.CardsRemaining() > 0) deck.Click();
         Assert.AreEqual(0, deck.Deck.CardsRemaining());
-        Assert.AreEqual(24, drawStack.CardsInStack());
+        Assert.AreEqual(24, waste.CardsInStack());
         
         deck.Click();
         Assert.AreEqual(24, deck.Deck.CardsRemaining());
-        Assert.AreEqual(0, drawStack.CardsInStack());
+        Assert.AreEqual(0, waste.CardsInStack());
 
         yield return null;
     }
@@ -46,7 +46,7 @@ public class DeckDrawTests
     {
         yield return new WaitForSeconds(5);
         
-        List<MainStack> mainStacks = new List<MainStack>(Object.FindObjectsOfType<MainStack>().OrderBy(m => m.gameObject.name));
+        List<Tableau> mainStacks = new List<Tableau>(Object.FindObjectsOfType<Tableau>().OrderBy(m => m.gameObject.name));
         int totalCardsDealt = 0;
 
         for (int i = 0; i < 7; i++)
