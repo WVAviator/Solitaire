@@ -25,8 +25,8 @@ namespace Solitaire
         void CheckForWin()
         {
             if (!AllFoundationsComplete()) return;
-            ClearTable();
             OnGameWin?.Invoke();
+            ClearTable();
             StartCoroutine(DelayStartNewGame());
         }
 
