@@ -279,7 +279,6 @@ MonoBehaviour:
   diamonds: {fileID: 1826717006}
   clubs: {fileID: 713102988}
   spades: {fileID: 492391453}
-  upperStacks: []
 --- !u!4 &127098469
 Transform:
   m_ObjectHideFlags: 0
@@ -10445,7 +10444,7 @@ GameObject:
   m_Component:
   - component: {fileID: 513726443}
   m_Layer: 0
-  m_Name: MiddleStack
+  m_Name: Tableau
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15685,7 +15684,7 @@ GameObject:
   m_Component:
   - component: {fileID: 836166120}
   m_Layer: 0
-  m_Name: DeckStack
+  m_Name: StockWaste
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15925,8 +15924,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcf068ebfc7a552408b01cb4084434d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Deck: {fileID: 1372051540}
-  MainStacks:
+  deckLocation: {fileID: 1372051540}
+  tableaux:
   - {fileID: 788729454}
   - {fileID: 569399480}
   - {fileID: 62881493}
@@ -15934,14 +15933,12 @@ MonoBehaviour:
   - {fileID: 921153428}
   - {fileID: 1920914907}
   - {fileID: 1312953514}
-  UpperStack:
-  - {fileID: 1114386041}
-  - {fileID: 1175606138}
-  - {fileID: 1468476865}
-  - {fileID: 1966697324}
-  DeckLocation: {x: 0, y: 0}
-  MainStackLocations: []
-  UpperStackLocations: []
+  foundations:
+  - {fileID: 1114386043}
+  - {fileID: 1175606140}
+  - {fileID: 1468476867}
+  - {fileID: 1966697326}
+  wasteStack: {fileID: 1157389072}
 --- !u!4 &1083648639
 Transform:
   m_ObjectHideFlags: 0
@@ -16094,7 +16091,7 @@ GameObject:
   - component: {fileID: 1157389071}
   - component: {fileID: 1157389072}
   m_Layer: 0
-  m_Name: DrawStack
+  m_Name: Waste
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16397,8 +16394,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fb719f9dbd34c4ab195342817bf737c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckPrefab: {fileID: 4542785877884883153, guid: eb03a9f4f56648c40a611ba4f94af72b, type: 3}
+  stockPrefab: {fileID: 4542785877884883153, guid: eb03a9f4f56648c40a611ba4f94af72b, type: 3}
   cardPrefab: {fileID: 1414872920777088591, guid: d049cc245100b58468fa69b9b8e35c6c, type: 3}
+  cardDealSpeed: 0.05
 --- !u!4 &1232123488
 Transform:
   m_ObjectHideFlags: 0
@@ -16567,7 +16565,7 @@ GameObject:
   - component: {fileID: 1372051540}
   - component: {fileID: 1372051541}
   m_Layer: 0
-  m_Name: DeckStack
+  m_Name: Stock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16648,7 +16646,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1455874417}
   m_Layer: 0
-  m_Name: UpperStack
+  m_Name: Foundation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
