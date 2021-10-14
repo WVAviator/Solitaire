@@ -4,37 +4,31 @@ namespace Solitaire
 {
     public class Deck
     {
-        readonly List<Card> cards = new List<Card>();
-        readonly Stack<Card> stack;
-
+        readonly Stack<CardData> cardStack;
         public Deck()
         {
+            List<CardData> cards = new List<CardData>();
             for (int r = 0; r < 13; r++)
             {
                 for (int s = 0; s < 4; s++)
                 {
-                    Card newCard = new Card(s, r);
+                    CardData newCard = new CardData(s, r);
                     cards.Add(newCard);
                 }
             }
-
+            
             cards.Shuffle();
-            stack = new Stack<Card>(cards);
+            cardStack = new Stack<CardData>(cards);
         }
 
-        public Deck(Stack<Card> cards)
+        public Deck(Stack<CardData> cardStack)
         {
-            stack = cards;
+            this.cardStack = cardStack;
         }
 
-        public Card DrawCard()
-        {
-            return stack.Pop();
-        }
-
-        public int CardsRemaining()
-        {
-            return stack.Count;
-        }
+        public CardData DrawCard() => cardStack.Pop();
+        
+        public int CardsRemaining() => cardStack.Count;
+        
     }
 }

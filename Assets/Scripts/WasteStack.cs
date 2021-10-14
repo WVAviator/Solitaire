@@ -3,15 +3,15 @@ using UnityEngine;
 
 namespace Solitaire
 {
-    public class Waste : Stack
+    public class WasteStack : Stack
     {
-        int currentDrawAmount;
-        int currentDrawSize;
+        int cardsRemainingInReveal;
+        int cardsDrawnThisReveal;
 
         public void RevealCards(PlayingCard[] cards)
         {
-            currentDrawAmount = cards.Length;
-            currentDrawSize = currentDrawAmount;
+            cardsRemainingInReveal = cards.Length;
+            cardsDrawnThisReveal = cardsRemainingInReveal;
 
             ReorganizeExistingCards();
 
@@ -33,30 +33,32 @@ namespace Solitaire
                 Vector3 newPosition;
                 newPosition.x = transform.position.x;
                 newPosition.y = transform.position.y;
-                newPosition.z = -0.01f * PlayingCardsInStack.IndexOf(card);
+                newPosition.z = ZPositionFromListPosition(card);
                 
-                card.SetTargetPosition(newPosition);
+                card.MoveToPosition(newPosition, true);
             }
         }
 
+        float ZPositionFromListPosition(PlayingCard card) => -0.01f * PlayingCardsInStack.IndexOf(card);
+
         protected override void SetPosition(PlayingCard card)
         {
-            int positionInDraw = currentDrawSize - currentDrawAmount--;
+            int positionInDraw = cardsDrawnThisReveal - cardsRemainingInReveal--;
             
             Vector3 targetPosition;
             targetPosition.x = transform.position.x;
-            targetPosition.y = transform.position.y - positionInDraw * CardSpacing;
-            targetPosition.z = -0.01f * PlayingCardsInStack.Count;
+            targetPosition.y = YPositionWithSpacing(positionInDraw);
+            targetPosition.z = ZPositionWithLayering();
 
-            card.SetTargetPosition(targetPosition);
+            card.MoveToPosition(targetPosition);
         }
 
-        public Stack<Card> GetResetStack()
+        public Stack<CardData> GetResetStack()
         {
-            Stack<Card> newStack = new Stack<Card>();
+            Stack<CardData> newStack = new Stack<CardData>();
             for (int i = PlayingCardsInStack.Count - 1; i >= 0; i--)
             {
-                newStack.Push(PlayingCardsInStack[i].card);
+                newStack.Push(PlayingCardsInStack[i].CardData);
             }
 
             ClearCards();

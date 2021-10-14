@@ -9,8 +9,6 @@ namespace Solitaire
     {
         protected readonly List<PlayingCard> PlayingCardsInStack = new List<PlayingCard>();
         [SerializeField] protected float CardSpacing = 0.35f;
-
-
         public void Transfer(PlayingCard card, Stack oldStack)
         {
             Stack newStack = this;
@@ -18,36 +16,31 @@ namespace Solitaire
             newStack.AddCard(card);
             oldStack.RemoveCard(card);
         }
-
         public virtual void AddCard(PlayingCard card)
         {
             card.SetCurrentStack(this);
-
             SetParent(card);
-            
             SetPosition(card);
-            
-
             PlayingCardsInStack.Add(card);
         }
-
         protected virtual void SetPosition(PlayingCard card)
         {
             Vector3 cardPosition;
 
             cardPosition.x = transform.position.x;
-            cardPosition.y = transform.position.y - CardSpacing * PlayingCardsInStack.Count;
-            cardPosition.z = -0.01f * PlayingCardsInStack.Count;
+            cardPosition.y = YPositionWithSpacing(PlayingCardsInStack.Count);
+            cardPosition.z = ZPositionWithLayering();
             
-            card.SetTargetPosition(cardPosition, card.transform.childCount > 0);
+            card.MoveToPosition(cardPosition, card.transform.childCount > 0);
         }
+        protected float ZPositionWithLayering() => -0.01f * PlayingCardsInStack.Count;
+        protected float YPositionWithSpacing(int spacedBy) => transform.position.y - CardSpacing * spacedBy;
 
         void SetParent(PlayingCard card)
         {
             Transform parent = null;
-            int index = 0;
             if (PlayingCardsInStack.Count > 0) parent = PlayingCardsInStack.Last().transform;
-            card.transform.parent = parent;
+            card.transform.SetParent(parent);
         }
 
         void RemoveCard(PlayingCard card)
@@ -56,19 +49,9 @@ namespace Solitaire
             PlayingCardsInStack.Remove(card);
         }
 
-        public virtual bool CanAddCard(PlayingCard card)
-        {
-            return false;
-        }
-
-        public int CardsInStack()
-        {
-            return PlayingCardsInStack.Count;
-        }
-
-        public void Clear()
-        {
-            PlayingCardsInStack.Clear();
-        }
+        public virtual bool CanAddCard(PlayingCard card) => false;
+        public int CardsInStack() => PlayingCardsInStack.Count;
+        public void Clear() => PlayingCardsInStack.Clear();
+        
     }
 }

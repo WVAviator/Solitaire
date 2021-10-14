@@ -20,7 +20,7 @@ public class DeckDataTests
     public void DeckCardDraw()
     {
         Deck deck = new Deck();
-        List<Card> cards = new List<Card>();
+        List<CardData> cards = new List<CardData>();
         cards.Add(deck.DrawCard());
         Assert.AreEqual(51, deck.CardsRemaining());
         Assert.AreEqual(1, cards.Count);
@@ -37,7 +37,7 @@ public class DeckDataTests
     public void AllCardsUnique()
     {
         Deck deck = new Deck();
-        List<Card> cards = new List<Card>();
+        List<CardData> cards = new List<CardData>();
         for (int i = 0; i < 52; i++)
         {
             cards.Add(deck.DrawCard());
@@ -46,7 +46,7 @@ public class DeckDataTests
         int distinctCount = cards.Distinct().Count();
         Assert.AreEqual(52, distinctCount);
 
-        List<Card> allSpades = new List<Card>(cards.Where(p => p.GetSuit() == 3));
+        List<CardData> allSpades = new List<CardData>(cards.Where(p => p.Suit == 3));
         Assert.AreEqual(13, allSpades.Count);
     }
     

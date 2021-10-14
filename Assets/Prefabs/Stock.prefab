@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4542785877884883153}
   - component: {fileID: 4542785877884883152}
   m_Layer: 0
-  m_Name: Deck
+  m_Name: Stock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

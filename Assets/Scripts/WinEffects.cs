@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -9,15 +10,11 @@ namespace Solitaire
         [SerializeField] ParticleSystem diamonds;
         [SerializeField] ParticleSystem clubs;
         [SerializeField] ParticleSystem spades;
-
-        [SerializeField] Foundation[] upperStacks;
-
-        void Awake()
-        {
-            DisableParticles();
-            GameManager.OnGameWin += InitiateEffects;
-        }
-
+        
+        void Awake() => DisableParticles();
+        void OnEnable() => GameManager.OnGameWin += InitiateEffects;
+        void OnDisable() => GameManager.OnGameWin -= InitiateEffects;
+        
         void InitiateEffects()
         {
             OrientEffectsToSuit();
@@ -49,12 +46,12 @@ namespace Solitaire
 
         void OrientEffectsToSuit()
         {
-            foreach (Foundation up in upperStacks)
+            foreach (FoundationStack f in GameBoard.Instance.Foundations)
             {
-                if (up.GetActiveSuit() == 0) hearts.transform.position = up.transform.position;
-                if (up.GetActiveSuit() == 1) diamonds.transform.position = up.transform.position;
-                if (up.GetActiveSuit() == 2) clubs.transform.position = up.transform.position;
-                if (up.GetActiveSuit() == 3) spades.transform.position = up.transform.position;
+                if (f.GetFoundationSuit() == 0) hearts.transform.position = f.transform.position;
+                if (f.GetFoundationSuit() == 1) diamonds.transform.position = f.transform.position;
+                if (f.GetFoundationSuit() == 2) clubs.transform.position = f.transform.position;
+                if (f.GetFoundationSuit() == 3) spades.transform.position = f.transform.position;
             }
         }
     }

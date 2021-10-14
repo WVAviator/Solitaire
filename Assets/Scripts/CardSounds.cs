@@ -18,7 +18,7 @@ public class CardSounds : MonoBehaviour
         
         playingCard = GetComponent<PlayingCard>();
     }
-
+    
     void OnEnable()
     {
         playingCard.OnCardPicked += PlayUpSound;
@@ -29,14 +29,8 @@ public class CardSounds : MonoBehaviour
         playingCard.OnCardPicked -= PlayUpSound;
         playingCard.OnCardPlaced -= PlayDownSound;
     }
-
-    void PlayDownSound()
-    {
-        cardDown.Play();
-    }
-
-    void PlayUpSound()
-    {
-        cardUp.Play();
-    }
+    
+    void PlayDownSound() => cardDown.Play();
+    void PlayUpSound() => cardUp.Play();
+    
 }

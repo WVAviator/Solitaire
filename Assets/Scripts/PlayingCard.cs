@@ -6,7 +6,8 @@ namespace Solitaire
 {
     public class PlayingCard : MonoBehaviour, IClickable, IDraggable
     {
-        public Card card;
+        public CardData CardData => cardData;
+        CardData cardData;
         Stack currentStack;
 
         bool isFlipped;
@@ -16,18 +17,18 @@ namespace Solitaire
 
         Sprite faceUpSprite;
         SpriteRenderer spriteRenderer;
-        CardMovement cardMover;
+        CardAnimation cardAnimation;
 
         public event Action OnCardPicked;
         public event Action OnCardPlaced;
 
 
-        public void SetCard(Card c)
+        public void SetCard(CardData c)
         {
-            card = c;
+            cardData = c;
             spriteRenderer = GetComponent<SpriteRenderer>();
-            cardMover = GetComponent<CardMovement>();
-            faceUpSprite = CardManager.Instance.GetSprite(c);
+            cardAnimation = GetComponent<CardAnimation>();
+            faceUpSprite = CardSprites.Instance.GetSprite(c);
         }
         
         public void TurnFaceUp()
@@ -46,47 +47,42 @@ namespace Solitaire
             return transform.childCount != 0;
         }
 
-        public void SetTargetPosition(Vector3 position, bool instant = false)
+        public void MoveToPosition(Vector3 position, bool skipAnimation = false)
         {
-            if (instant) transform.position = position;
-            else cardMover.SetNewTargetPosition(position);
+            if (skipAnimation) transform.position = position;
+            else cardAnimation.SetAnimationTargetPosition(position);
             SetHome(position);
         }
 
         public void Drag(Vector2 updatedPosition, Vector2 clickedPositionOffset)
         {
             if (!isFlipped) return;
-            if (IsInDrawStack() && HasChildren()) return;
+            if (IsInWaste() && HasChildren()) return;
             
             if (!isBeingDragged) OnCardPicked?.Invoke();
             DragCard(updatedPosition - clickedPositionOffset);
         }
 
-        bool IsInDrawStack()
-        {
-            return currentStack.GetType() == typeof(Waste);
-        }
-
-        void SetHome(Vector3 homePosition)
-        {
-            this.homePosition = homePosition;
-        }
+        bool IsInWaste() => currentStack.GetType() == typeof(WasteStack);
+        void SetHome(Vector3 homePosition) => this.homePosition = homePosition;
+        
 
         void DragCard(Vector2 updatedPosition)
         {
-            transform.position = (Vector3) updatedPosition - Vector3.forward;
+            UpdateCardPosition(updatedPosition);
             isBeingDragged = true;
             SetLayer(3);
         }
 
-        public void Release(Collider2D col)
+        void UpdateCardPosition(Vector2 updatedPosition) => transform.position = (Vector3) updatedPosition - Vector3.forward;
+        public void Release(Collider2D colliderReleasedOn)
         {
             if (!isBeingDragged) return;
             isBeingDragged = false;
             SetLayer(0);
 
-            Stack stackDroppedOn = GetStackFromCollider(col);
-            if (stackDroppedOn == null || !stackDroppedOn.CanAddCard(this))
+            Stack stackDroppedOn = GetStackFromCollider(colliderReleasedOn);
+            if (!CanBeAddedToStack(stackDroppedOn))
             {
                 ResetPosition();
                 return;
@@ -96,18 +92,17 @@ namespace Solitaire
             stackDroppedOn.Transfer(this, currentStack);
         }
 
-        static Stack GetStackFromCollider(Collider2D col)
+        bool CanBeAddedToStack(Stack stackDroppedOn) => stackDroppedOn != null && stackDroppedOn.CanAddCard(this);
+
+        static Stack GetStackFromCollider(Collider2D colliderReleasedOn)
         {
-            if (col.TryGetComponent<Stack>(out Stack s)) return s;
-            if (col.TryGetComponent<PlayingCard>(out PlayingCard c)) return c.currentStack;
+            if (colliderReleasedOn.TryGetComponent(out Stack s)) return s;
+            if (colliderReleasedOn.TryGetComponent(out PlayingCard c)) return c.currentStack;
             return null;
         }
 
-        void ResetPosition()
-        {
-            SetTargetPosition(homePosition);
-        }
-
+        void ResetPosition() => MoveToPosition(homePosition);
+        
         void SetLayer(int layerIndex)
         {
             foreach (PlayingCard c in GetComponentsInChildren<PlayingCard>())

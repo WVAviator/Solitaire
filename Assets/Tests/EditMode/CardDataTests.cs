@@ -9,22 +9,22 @@ public class CardDataTests
         [Test]
         public void CardIndexTest()
         {
-            Card aceOfHearts = new Card(0, 0);
-            Assert.AreEqual(0, aceOfHearts.GetCardIndex());
+            CardData aceOfHearts = new CardData(0, 0);
+            Assert.AreEqual(0, aceOfHearts.Index);
 
-            Card fourOfClubs = new Card(2, 3);
-            Assert.AreEqual(29, fourOfClubs.GetCardIndex());
+            CardData fourOfClubs = new CardData(2, 3);
+            Assert.AreEqual(29, fourOfClubs.Index);
 
-            Card kingOfSpades = new Card(3, 12);
-            Assert.AreEqual(51, kingOfSpades.GetCardIndex());
+            CardData kingOfSpades = new CardData(3, 12);
+            Assert.AreEqual(51, kingOfSpades.Index);
         }
 
         [Test]
         public void CardColorValue()
         {
-            Card aceOfDiamonds = new Card(1, 0);
-            Card aceOfClubs = new Card(2, 0);
-            Assert.AreEqual(false, aceOfClubs.GetColor() == aceOfDiamonds.GetColor());
+            CardData aceOfDiamonds = new CardData(1, 0);
+            CardData aceOfClubs = new CardData(2, 0);
+            Assert.AreEqual(false, aceOfClubs.Color == aceOfDiamonds.Color);
         }
         
     }

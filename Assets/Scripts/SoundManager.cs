@@ -16,18 +16,11 @@ namespace Solitaire
         }
         void OnEnable()
         {
-            GameManager.OnNewGameDealing += PlayDealSound;
+            GameManager.OnNewGameDeal += PlayDealSound;
             GameManager.OnGameWin += PlayWinSound;
         }
-
-        void PlayDealSound()
-        {
-            dealSound.Play();
-        }
-
-        void PlayWinSound()
-        {
-            winSound.Play();
-        }
+        void PlayDealSound() => dealSound.Play();
+        void PlayWinSound() => winSound.Play();
+        
     }
 }

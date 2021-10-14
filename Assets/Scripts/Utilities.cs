@@ -6,7 +6,6 @@ namespace Solitaire
     public static class Utilities
     {
         static Random rng = new Random();
-
         public static void Shuffle<T>(this IList<T> list)
         {
             int n = list.Count;

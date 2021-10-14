@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Solitaire
@@ -6,24 +7,28 @@ namespace Solitaire
     public class GameBoard : MonoBehaviour
     {
         public static GameBoard Instance;
+        public Vector2 StockLocation => deckLocation.position;
+        [SerializeField] Transform deckLocation;
+        public List<TableauStack> Tableaux => tableaux;
+        [SerializeField] List<TableauStack> tableaux;
+        public List<FoundationStack> Foundations => foundations;
+        [SerializeField] List<FoundationStack> foundations;
+        public WasteStack WasteStack => wasteStack;
+        [SerializeField] WasteStack wasteStack;
 
-        public Transform Deck;
-
-        public List<Tableau> MainStacks = new List<Tableau>();
-        public Transform[] UpperStack;
-
-        [HideInInspector] public Vector2 DeckLocation;
-        [HideInInspector] public List<Vector2> MainStackLocations = new List<Vector2>();
-        [HideInInspector] public List<Vector2> UpperStackLocations = new List<Vector2>();
-
-        void Awake()
+        public List<Stack> AllStacks
         {
-            Instance = this;
-
-            DeckLocation = Deck.position;
-
-            foreach (Tableau t in MainStacks) MainStackLocations.Add(t.transform.position);
-            foreach (Transform t in UpperStack) UpperStackLocations.Add(t.position);
+            get
+            {
+                List<Stack> stacks = new List<Stack>();
+                stacks.AddRange(tableaux);
+                stacks.AddRange(foundations);
+                stacks.Add(wasteStack);
+                return stacks;
+            }
         }
+
+        void Awake() => Instance = this;
+        
     }
 }

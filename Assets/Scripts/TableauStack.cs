@@ -3,38 +3,29 @@ using System.Linq;
 
 namespace Solitaire
 {
-    public class Tableau : Stack
+    public class TableauStack : Stack
     {
         public override void AddCard(PlayingCard card)
         {
             List<PlayingCard> allCards = new List<PlayingCard>( card.GetComponentsInChildren<PlayingCard>());
-
-            foreach (PlayingCard c in allCards)
-            {
-                base.AddCard(c);
-            }
+            foreach (PlayingCard c in allCards) base.AddCard(c);
         }
-
         public override bool CanAddCard(PlayingCard card)
         {
-            int rank = card.card.GetRank();
-            int color = card.card.GetColor();
+            int rank = card.CardData.Rank;
+            int color = card.CardData.Color;
 
-            if (EmptyStack()) return card.card.GetRank() == 12;
+            if (EmptyStack()) return IsKing(card);
 
             PlayingCard lastCard = PlayingCardsInStack.Last();
 
             return IsSequentialAlternatingColor(rank, color, lastCard);
         }
-
-        bool EmptyStack()
-        {
-            return PlayingCardsInStack.Count == 0;
-        }
-
+        static bool IsKing(PlayingCard card) => card.CardData.Rank == 12;
+        bool EmptyStack() => PlayingCardsInStack.Count == 0;
         bool IsSequentialAlternatingColor(int rank, int color, PlayingCard lastCard)
         {
-            return rank == lastCard.card.GetRank() - 1 && color != lastCard.card.GetColor();
+            return rank == lastCard.CardData.Rank - 1 && color != lastCard.CardData.Color;
         }
     }
 }
