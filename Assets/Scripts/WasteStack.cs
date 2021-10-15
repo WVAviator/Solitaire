@@ -5,13 +5,13 @@ namespace Solitaire
 {
     public class WasteStack : Stack
     {
-        int cardsRemainingInReveal;
-        int cardsDrawnThisReveal;
+        int _cardsRemainingInReveal;
+        int _cardsDrawnThisReveal;
 
         public void RevealCards(PlayingCard[] cards)
         {
-            cardsRemainingInReveal = cards.Length;
-            cardsDrawnThisReveal = cardsRemainingInReveal;
+            _cardsRemainingInReveal = cards.Length;
+            _cardsDrawnThisReveal = _cardsRemainingInReveal;
 
             ReorganizeExistingCards();
 
@@ -43,7 +43,7 @@ namespace Solitaire
 
         protected override void SetPosition(PlayingCard card)
         {
-            int positionInDraw = cardsDrawnThisReveal - cardsRemainingInReveal--;
+            int positionInDraw = _cardsDrawnThisReveal - _cardsRemainingInReveal--;
             
             Vector3 targetPosition;
             targetPosition.x = transform.position.x;

@@ -1,47 +1,50 @@
 using System;
 using UnityEngine;
 
-public class CardAnimation : MonoBehaviour
+namespace Solitaire
 {
-    [SerializeField] float moveSpeed = 1;
-    bool animationActive;
-    Vector3 targetPosition;
-
-    public static event Action OnCardAnimationBegins;
-    public static event Action OnCardAnimationEnds;
-
-    void Update()
+    public class CardAnimation : MonoBehaviour
     {
-        if (!animationActive) return;
-        if (transform.position == targetPosition)
+        [SerializeField] float moveSpeed = 1;
+        bool _animationActive;
+        Vector3 _targetPosition;
+
+        public static event Action OnCardAnimationBegins;
+        public static event Action OnCardAnimationEnds;
+
+        void Update()
         {
-            FinishAnimation();
-            return;
+            if (!_animationActive) return;
+            if (transform.position == _targetPosition)
+            {
+                FinishAnimation();
+                return;
+            }
+
+            AnimateMovement();
         }
-        
-        AnimateMovement();
-    }
 
-    void AnimateMovement()
-    {
-        transform.position = 
-            Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+        void AnimateMovement()
+        {
+            transform.position =
+                Vector3.MoveTowards(transform.position, _targetPosition, moveSpeed * Time.deltaTime);
 
-        if (IsCloseEnough()) transform.position = targetPosition;
-    }
+            if (IsCloseEnough()) transform.position = _targetPosition;
+        }
 
-    bool IsCloseEnough() => (transform.position - targetPosition).sqrMagnitude < 0.001f;
+        bool IsCloseEnough() => (transform.position - _targetPosition).sqrMagnitude < 0.001f;
 
-    void FinishAnimation()
-    {
-        OnCardAnimationEnds?.Invoke();
-        animationActive = false;
-    }
+        void FinishAnimation()
+        {
+            OnCardAnimationEnds?.Invoke();
+            _animationActive = false;
+        }
 
-    public void SetAnimationTargetPosition(Vector3 position)
-    {
-        targetPosition = position;
-        animationActive = true;
-        OnCardAnimationBegins?.Invoke();
+        public void SetAnimationTargetPosition(Vector3 position)
+        {
+            _targetPosition = position;
+            _animationActive = true;
+            OnCardAnimationBegins?.Invoke();
+        }
     }
 }

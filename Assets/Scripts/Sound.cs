@@ -6,7 +6,7 @@ namespace Solitaire
     [Serializable]
     public class Sound
     {
-        AudioSource audioSource;
+        AudioSource _audioSource;
 
         [SerializeField] AudioClip clip;
 
@@ -19,14 +19,14 @@ namespace Solitaire
         {
             set
             {
-                audioSource = value;
-                audioSource.clip = clip;
-                audioSource.volume = volume;
-                audioSource.pitch = pitch;
+                _audioSource = value;
+                _audioSource.clip = clip;
+                _audioSource.volume = volume;
+                _audioSource.pitch = pitch;
             } 
         }
 
-        public void Play() => audioSource.Play();
+        public void Play() => _audioSource.Play();
 
     }
 }

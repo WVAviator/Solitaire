@@ -11,14 +11,14 @@ namespace Solitaire
 
         [SerializeField] PlayingCard cardPrefab;
         
-        WasteStack wasteStack;
-        SpriteRenderer spriteRenderer;
+        WasteStack _wasteStack;
+        SpriteRenderer _spriteRenderer;
 
         void Awake()
         {
             Deck = new Deck();
-            spriteRenderer = GetComponent<SpriteRenderer>();
-            wasteStack = FindObjectOfType<WasteStack>();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+            _wasteStack = FindObjectOfType<WasteStack>();
         }
 
         public CardData DrawCard()
@@ -28,7 +28,7 @@ namespace Solitaire
             return nextCard;
         }
 
-        void UpdateStockSprite() => spriteRenderer.enabled = Deck.CardsRemaining() != 0;
+        void UpdateStockSprite() => _spriteRenderer.enabled = Deck.CardsRemaining() != 0;
         
 
         public void Click()
@@ -42,7 +42,7 @@ namespace Solitaire
             }
 
             PlayingCard[] cards = DrawCardsFromDeck(numberOfCardsToDraw);
-            wasteStack.RevealCards(cards);
+            _wasteStack.RevealCards(cards);
         }
 
         PlayingCard[] DrawCardsFromDeck(int cardsToDraw)
@@ -66,7 +66,7 @@ namespace Solitaire
 
         void RestackDeck()
         {
-            Deck = new Deck(wasteStack.GetResetStack());
+            Deck = new Deck(_wasteStack.GetResetStack());
             UpdateStockSprite();
         }
     }

@@ -12,7 +12,7 @@ namespace Solitaire
 
         public static event Action OnGameWin;
         public static event Action OnNewGameDeal;
-        bool dealInProgress = false;
+        bool _dealInProgress = false;
 
         [SerializeField] Stock stockPrefab;
         [SerializeField] PlayingCard cardPrefab;
@@ -41,7 +41,7 @@ namespace Solitaire
         void Start() => DealNewGame();
         public void DealNewGame()
         {
-            if (dealInProgress) return;
+            if (_dealInProgress) return;
             ClearTable();
             
             CreateNewPlayingDeck();
@@ -78,7 +78,7 @@ namespace Solitaire
 
         IEnumerator DealMainStacks()
         {
-            dealInProgress = true;
+            _dealInProgress = true;
             
             List<TableauStack> tableauStacks = GameBoard.Instance.Tableaux;
             for (int i = 0; i < 7; i++)
@@ -94,7 +94,7 @@ namespace Solitaire
                 }
             }
 
-            dealInProgress = false;
+            _dealInProgress = false;
         }
 
         public void QuitGame() => Application.Quit();

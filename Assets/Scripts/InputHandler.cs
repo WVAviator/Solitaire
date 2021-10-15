@@ -7,15 +7,15 @@ namespace Solitaire
     {
         [SerializeField] float minimumDragDistance = 10;
 
-        bool inputAllowed = true;
+        bool _inputAllowed = true;
 
-        Camera mainCamera;
-        bool isDragging;
-        Vector2 currentPoint;
+        Camera _mainCamera;
+        bool _isDragging;
+        Vector2 _currentPoint;
 
-        MouseDown mouseDown;
+        MouseDown _mouseDown;
 
-        void Awake() => mainCamera = Camera.main;
+        void Awake() => _mainCamera = Camera.main;
         void OnEnable()
         {
             CardAnimation.OnCardAnimationBegins += DisableInput;
@@ -27,70 +27,70 @@ namespace Solitaire
             CardAnimation.OnCardAnimationEnds -= EnableInput;
         }
 
-        void DisableInput() => inputAllowed = false;
-        void EnableInput() => inputAllowed = true;
+        void DisableInput() => _inputAllowed = false;
+        void EnableInput() => _inputAllowed = true;
 
         void Update()
         {
-            if (!inputAllowed) return;
+            if (!_inputAllowed) return;
             
             SetCurrentPointerLocation();
 
-            if (Input.GetMouseButtonDown(0)) mouseDown = new MouseDown(mainCamera);
+            if (Input.GetMouseButtonDown(0)) _mouseDown = new MouseDown(_mainCamera);
             
 
             if (Input.GetMouseButtonUp(0))
             {
-                if (!isDragging) ProcessClick();
+                if (!_isDragging) ProcessClick();
                 else ProcessRelease();
-                isDragging = false;
+                _isDragging = false;
             }
 
-            if (Input.GetMouseButton(0)) isDragging = HasDraggedFarEnough();
+            if (Input.GetMouseButton(0)) _isDragging = HasDraggedFarEnough();
             
-            if (isDragging) ProcessDrag();
+            if (_isDragging) ProcessDrag();
         }
 
         bool HasDraggedFarEnough() =>
-            ((Vector2) Input.mousePosition - mouseDown.ScreenPoint).sqrMagnitude >
+            ((Vector2) Input.mousePosition - _mouseDown.ScreenPoint).sqrMagnitude >
             (minimumDragDistance * minimumDragDistance);
 
         void SetCurrentPointerLocation()
         {
-            currentPoint = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            _currentPoint = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
         }
 
         Collider2D GetColliderUnderCollider()
         {
-            return Physics2D.OverlapPoint(mouseDown.Collider.transform.position, 1);
+            return Physics2D.OverlapPoint(_mouseDown.Collider.transform.position, 1);
         }
 
         void ProcessClick()
         {
             FixPotentialStuckCollider();
             
-            if (mouseDown.Collider == null) return;
-            if (mouseDown.Collider.TryGetComponent<IClickable>(out IClickable clickedSprite)) clickedSprite.Click();
+            if (_mouseDown.Collider == null) return;
+            if (_mouseDown.Collider.TryGetComponent<IClickable>(out IClickable clickedSprite)) clickedSprite.Click();
         }
 
         void ProcessDrag()
         {
-            if (mouseDown.Collider == null) return;
-            Vector2 clickedPositionOffset = mouseDown.WorldPoint - mouseDown.ColliderInitialPosition;
-            if (mouseDown.Collider.TryGetComponent<IDraggable>(out IDraggable dragged)) dragged.Drag(currentPoint, clickedPositionOffset);
+            if (_mouseDown.Collider == null) return;
+            Vector2 clickedPositionOffset = _mouseDown.WorldPoint - _mouseDown.ColliderInitialPosition;
+            if (_mouseDown.Collider.TryGetComponent<IDraggable>(out IDraggable dragged)) dragged.Drag(_currentPoint, clickedPositionOffset);
         }
 
         void ProcessRelease()
         {
-            if (mouseDown.Collider == null) return;
+            if (_mouseDown.Collider == null) return;
 
             Collider2D releaseCollider = GetColliderUnderCollider();
-            if (releaseCollider == null) releaseCollider = mouseDown.Collider;
-            if (mouseDown.Collider.TryGetComponent<IDraggable>(out IDraggable dragged)) dragged.Release(releaseCollider);
+            if (releaseCollider == null) releaseCollider = _mouseDown.Collider;
+            if (_mouseDown.Collider.TryGetComponent<IDraggable>(out IDraggable dragged)) dragged.Release(releaseCollider);
         }
         void FixPotentialStuckCollider()
         {
-            Collider2D potentialStuckCollider =  Physics2D.OverlapPoint(currentPoint, 8);
+            Collider2D potentialStuckCollider =  Physics2D.OverlapPoint(_currentPoint, 8);
             if (potentialStuckCollider == null) return;
             if (potentialStuckCollider.TryGetComponent(out IDraggable dragged)) dragged.Release(potentialStuckCollider);
         }

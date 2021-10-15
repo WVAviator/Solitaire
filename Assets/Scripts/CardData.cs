@@ -6,18 +6,18 @@ namespace Solitaire
     [Serializable]
     public struct CardData
     {
-        public int Suit => suit;
-        int suit;
-        public int Rank => rank;
-        int rank;
-        public int Color => suit / 2;
-        public int Index => suit * 13 + rank;
-        public string Name => $"{rankNames[rank]} +  of  + {suitNames[suit]}";
+        public int Suit => _suit;
+        int _suit;
+        public int Rank => _rank;
+        int _rank;
+        public int Color => _suit / 2;
+        public int Index => _suit * 13 + _rank;
+        public string Name => $"{rankNames[_rank]} +  of  + {suitNames[_suit]}";
 
         public CardData(int suit, int rank)
         {
-            this.suit = suit;
-            this.rank = rank;
+            this._suit = suit;
+            this._rank = rank;
         }
 
         static List<string> rankNames = new List<string>()

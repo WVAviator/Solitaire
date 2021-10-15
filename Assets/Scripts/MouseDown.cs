@@ -4,27 +4,27 @@ namespace Solitaire
 {
     public class MouseDown
     {
-        public Vector2 ScreenPoint => screenPoint;
-        Vector2 screenPoint;
+        public Vector2 ScreenPoint => _screenPoint;
+        readonly Vector2 _screenPoint;
 
-        public Vector2 WorldPoint => worldPoint;
-        Vector2 worldPoint;
+        public Vector2 WorldPoint => _worldPoint;
+        readonly Vector2 _worldPoint;
 
-        public Collider2D Collider => collider;
-        Collider2D collider;
+        public Collider2D Collider => _collider;
+        readonly Collider2D _collider;
 
-        public Vector2 ColliderInitialPosition => colliderInitialPosition;
-        Vector2 colliderInitialPosition;
+        public Vector2 ColliderInitialPosition => _colliderInitialPosition;
+        readonly Vector2 _colliderInitialPosition;
 
         public MouseDown(Camera mainCamera)
         {
-            screenPoint = Input.mousePosition;
-            worldPoint = mainCamera.ScreenToWorldPoint(screenPoint);
-            collider = GetColliderUnderCursor();
-            if (collider != null) colliderInitialPosition = collider.transform.position;
+            _screenPoint = Input.mousePosition;
+            _worldPoint = mainCamera.ScreenToWorldPoint(_screenPoint);
+            _collider = GetColliderUnderCursor();
+            if (_collider != null) _colliderInitialPosition = _collider.transform.position;
         }
         
-        Collider2D GetColliderUnderCursor() => Physics2D.OverlapPoint(worldPoint, 1);
+        Collider2D GetColliderUnderCursor() => Physics2D.OverlapPoint(_worldPoint, 1);
         
     }
 }
