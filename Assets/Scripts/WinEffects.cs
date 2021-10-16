@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Solitaire
 {
@@ -10,6 +12,9 @@ namespace Solitaire
         [SerializeField] ParticleSystem diamonds;
         [SerializeField] ParticleSystem clubs;
         [SerializeField] ParticleSystem spades;
+
+        [SerializeField] float randomSpeedMin = 2f;
+        [SerializeField] float randomSpeedMax = 5f;
         
         void Awake() => DisableParticles();
         void OnEnable() => GameManager.OnGameWin += InitiateEffects;

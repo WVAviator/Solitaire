@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Heart
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: b29c139a0b55b3f429833841c51bbc56, type: 3}
+    - {fileID: 2800000, guid: b7d73eb8eb0a0344c8c18c551dca1104, type: 3}
+    - {fileID: 2800000, guid: b85bea3e1cbf8684391c0064b91d6bb7, type: 3}
+    - {fileID: 2800000, guid: 9a81a685eea11dc44bd212555cf7992a, type: 3}
+    - {fileID: 2800000, guid: f8f4649921e3055468e0b8d7c5e90182, type: 3}
+    - {fileID: 2800000, guid: 05236fbe80e5b0442bb27c7770ce5698, type: 3}
+    - {fileID: 2800000, guid: fd189a21bb5d9e94e89424c6c9e02e8b, type: 3}
+    - {fileID: 2800000, guid: 1581a245a1c0de040bc4e01c2064367d, type: 3}
+    - {fileID: 2800000, guid: 02ac600229707064cb39e9aa5209f504, type: 3}
+    - {fileID: 2800000, guid: 9cff6ef1a28a8ec478faa550bd42c1f7, type: 3}
+    - {fileID: 2800000, guid: 5d30c6aef5c9fad45b3060e287598994, type: 3}
+    - {fileID: 2800000, guid: 0ada930ca68720d41b150bf6e13419b3, type: 3}
+    - {fileID: 2800000, guid: dfb99f6bf1092424fbabb8555dbd7587, type: 3}
+    totalSpriteSurfaceArea: 735234
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: fd189a21bb5d9e94e89424c6c9e02e8b, type: 3}
+  - {fileID: 21300000, guid: 9cff6ef1a28a8ec478faa550bd42c1f7, type: 3}
+  - {fileID: 21300000, guid: 02ac600229707064cb39e9aa5209f504, type: 3}
+  - {fileID: 21300000, guid: 1581a245a1c0de040bc4e01c2064367d, type: 3}
+  - {fileID: 21300000, guid: 9a81a685eea11dc44bd212555cf7992a, type: 3}
+  - {fileID: 21300000, guid: b7d73eb8eb0a0344c8c18c551dca1104, type: 3}
+  - {fileID: 21300000, guid: f8f4649921e3055468e0b8d7c5e90182, type: 3}
+  - {fileID: 21300000, guid: b29c139a0b55b3f429833841c51bbc56, type: 3}
+  - {fileID: 21300000, guid: dfb99f6bf1092424fbabb8555dbd7587, type: 3}
+  - {fileID: 21300000, guid: 0ada930ca68720d41b150bf6e13419b3, type: 3}
+  - {fileID: 21300000, guid: b85bea3e1cbf8684391c0064b91d6bb7, type: 3}
+  - {fileID: 21300000, guid: 5d30c6aef5c9fad45b3060e287598994, type: 3}
+  - {fileID: 21300000, guid: 05236fbe80e5b0442bb27c7770ce5698, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - 8
+  - 5
+  - 6
+  - 7
+  - A
+  - J
+  - 10
+  - Q
+  - 2
+  - 3
+  - K
+  - 4
+  - 9
+  m_RenderDataMap: {}
+  m_Tag: Heart
+  m_IsVariant: 0
