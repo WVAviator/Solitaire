@@ -13,12 +13,9 @@ namespace Solitaire
         [SerializeField] ParticleSystem clubs;
         [SerializeField] ParticleSystem spades;
 
-        [SerializeField] float randomSpeedMin = 2f;
-        [SerializeField] float randomSpeedMax = 5f;
-        
         void Awake() => DisableParticles();
-        void OnEnable() => GameManager.OnGameWin += InitiateEffects;
-        void OnDisable() => GameManager.OnGameWin -= InitiateEffects;
+        void OnEnable() => FoundationStack.OnAllFoundationsComplete += InitiateEffects;
+        void OnDisable() => FoundationStack.OnAllFoundationsComplete -= InitiateEffects;
         
         void InitiateEffects()
         {

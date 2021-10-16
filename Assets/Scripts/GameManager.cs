@@ -10,31 +10,25 @@ namespace Solitaire
     {
         Stock stock;
 
-        public static event Action OnGameWin;
         public static event Action OnNewGameDeal;
-
         public static event Action OnTableClear;
         
-        bool _dealInProgress = false;
+        bool _dealInProgress;
 
         [SerializeField] Stock stockPrefab;
         [SerializeField] PlayingCard cardPrefab;
 
         [SerializeField] float cardDealSpeed = 0.05f;
 
-        void OnEnable() => FoundationStack.OnCardAddedToFoundation += CheckForWin;
-        void OnDisable() => FoundationStack.OnCardAddedToFoundation -= CheckForWin;
-        
-        void CheckForWin()
+        void OnEnable() => FoundationStack.OnAllFoundationsComplete += EndGame;
+        void OnDisable() => FoundationStack.OnAllFoundationsComplete -= EndGame;
+
+        void EndGame()
         {
-            if (!AllFoundationsComplete()) return;
-            OnGameWin?.Invoke();
             ClearTable();
             StartCoroutine(DelayStartNewGame());
         }
 
-        static bool AllFoundationsComplete() => GameBoard.Instance.Foundations.All(us => us.IsComplete());
-        
         IEnumerator DelayStartNewGame()
         {
             yield return new WaitForSeconds(4);

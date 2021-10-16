@@ -10,6 +10,7 @@ namespace Solitaire
 
         [SerializeField] Sound cardUp;
         [SerializeField] Sound cardDown;
+        [SerializeField] Sound cardFlipped;
 
         PlayingCard playingCard;
 
@@ -17,6 +18,7 @@ namespace Solitaire
         {
             cardUp.Source = gameObject.AddComponent<AudioSource>();
             cardDown.Source = gameObject.AddComponent<AudioSource>();
+            cardFlipped.Source = gameObject.AddComponent<AudioSource>();
 
             playingCard = GetComponent<PlayingCard>();
         }
@@ -25,16 +27,19 @@ namespace Solitaire
         {
             playingCard.OnCardPicked += PlayUpSound;
             playingCard.OnCardPlaced += PlayDownSound;
+            playingCard.OnCardFlipped += PlayFlippedSound;
         }
 
         void OnDisable()
         {
             playingCard.OnCardPicked -= PlayUpSound;
             playingCard.OnCardPlaced -= PlayDownSound;
+            playingCard.OnCardFlipped -= PlayFlippedSound;
         }
 
         void PlayDownSound() => cardDown.Play();
         void PlayUpSound() => cardUp.Play();
+        void PlayFlippedSound() => cardFlipped.Play();
 
     }
 }

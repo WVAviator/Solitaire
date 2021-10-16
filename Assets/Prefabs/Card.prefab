@@ -144,6 +144,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 68564577ed13b11458842c5dae56291c, type: 3}
     volume: 0.5
     pitch: 1
+  cardFlipped:
+    clip: {fileID: 0}
+    volume: 0.2
+    pitch: 1
 --- !u!114 &3283274794801182421
 MonoBehaviour:
   m_ObjectHideFlags: 0

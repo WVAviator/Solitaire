@@ -21,6 +21,7 @@ namespace Solitaire
 
         public event Action OnCardPicked;
         public event Action OnCardPlaced;
+        public event Action OnCardFlipped;
 
 
         public void SetCard(CardData c)
@@ -35,6 +36,7 @@ namespace Solitaire
         {
             _isFlipped = true;
             _spriteRenderer.sprite = _faceUpSprite;
+            OnCardFlipped?.Invoke();
         }
 
         public void Click()

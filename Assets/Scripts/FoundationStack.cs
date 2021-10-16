@@ -1,11 +1,25 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Solitaire
 {
     public class FoundationStack : Stack
     {
-        public static event Action OnCardAddedToFoundation;
+        public static event Action OnAllFoundationsComplete;
+        static List<FoundationStack> foundations = new List<FoundationStack>();
+
+        protected override void OnEnable()
+        {
+            foundations.Add(this);
+            base.OnEnable();
+        }
+
+        protected override void OnDisable()
+        {
+            foundations.Remove(this);
+            base.OnDisable();
+        }
 
         public override bool CanAddCard(PlayingCard card)
         {
@@ -26,7 +40,9 @@ namespace Solitaire
         public override void AddCard(PlayingCard card)
         {
             base.AddCard(card);
-            OnCardAddedToFoundation?.Invoke();
+            if (AllFoundationsComplete()) OnAllFoundationsComplete?.Invoke();
         }
+        
+        static bool AllFoundationsComplete() => foundations.All(us => us.IsComplete());
     }
 }
