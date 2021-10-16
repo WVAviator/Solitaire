@@ -12,6 +12,9 @@ namespace Solitaire
 
         public static event Action OnGameWin;
         public static event Action OnNewGameDeal;
+
+        public static event Action OnTableClear;
+        
         bool _dealInProgress = false;
 
         [SerializeField] Stock stockPrefab;
@@ -48,27 +51,7 @@ namespace Solitaire
             OnNewGameDeal?.Invoke();
             StartCoroutine(DealMainStacks());
         }
-        void ClearTable()
-        {
-            DestroyCards();
-            DestroyDeck();
-            ClearStackLists();
-        }
-
-        static void ClearStackLists() => GameBoard.Instance.AllStacks.ForEach(s => s.Clear());
-        
-
-        void DestroyDeck()
-        {
-            if (stock != null) Destroy(stock.gameObject);
-        }
-
-        static void DestroyCards()
-        {
-            PlayingCard[] cards = FindObjectsOfType<PlayingCard>();
-            foreach (PlayingCard card in cards) Destroy(card.gameObject);
-        }
-
+        void ClearTable() => OnTableClear?.Invoke();
 
         void CreateNewPlayingDeck()
         {

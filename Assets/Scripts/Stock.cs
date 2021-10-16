@@ -21,6 +21,11 @@ namespace Solitaire
             _wasteStack = FindObjectOfType<WasteStack>();
         }
 
+        void OnEnable() => GameManager.OnTableClear += DestroySelf;
+        void OnDisable() => GameManager.OnTableClear -= DestroySelf;
+
+        void DestroySelf() => Destroy(gameObject);
+
         public CardData DrawCard()
         {
             CardData nextCard = Deck.DrawCard();
@@ -37,7 +42,7 @@ namespace Solitaire
 
             if (numberOfCardsToDraw == 0)
             {
-                RestackDeck();
+                RecycleWaste();
                 return;
             }
 
@@ -64,9 +69,9 @@ namespace Solitaire
             return drawAmount;
         }
 
-        void RestackDeck()
+        void RecycleWaste()
         {
-            Deck = new Deck(_wasteStack.GetResetStack());
+            Deck = new Deck(_wasteStack.GetRecycledStock());
             UpdateStockSprite();
         }
     }

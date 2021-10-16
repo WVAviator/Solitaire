@@ -9,6 +9,10 @@ namespace Solitaire
     {
         protected readonly List<PlayingCard> PlayingCardsInStack = new List<PlayingCard>();
         [SerializeField] protected float CardSpacing = 0.35f;
+
+        void OnEnable() => GameManager.OnTableClear += Clear;
+        void OnDisable() => GameManager.OnTableClear -= Clear;
+        
         public void Transfer(PlayingCard card, Stack oldStack)
         {
             Stack newStack = this;
@@ -51,7 +55,12 @@ namespace Solitaire
 
         public virtual bool CanAddCard(PlayingCard card) => false;
         public int CardsInStack() => PlayingCardsInStack.Count;
-        public void Clear() => PlayingCardsInStack.Clear();
+
+        protected void Clear()
+        {
+            foreach (PlayingCard pc in PlayingCardsInStack) Destroy(pc.gameObject);
+            PlayingCardsInStack.Clear();
+        }
         
     }
 }

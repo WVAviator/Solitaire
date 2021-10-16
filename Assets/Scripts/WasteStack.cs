@@ -53,7 +53,7 @@ namespace Solitaire
             card.MoveToPosition(targetPosition);
         }
 
-        public Stack<CardData> GetResetStack()
+        public Stack<CardData> GetRecycledStock()
         {
             Stack<CardData> newStack = new Stack<CardData>();
             for (int i = PlayingCardsInStack.Count - 1; i >= 0; i--)
@@ -61,14 +61,8 @@ namespace Solitaire
                 newStack.Push(PlayingCardsInStack[i].CardData);
             }
 
-            ClearCards();
+            Clear();
             return newStack;
-        }
-
-        void ClearCards()
-        {
-            foreach (PlayingCard pc in PlayingCardsInStack) Destroy(pc.gameObject);
-            PlayingCardsInStack.Clear();
         }
     }
 }
