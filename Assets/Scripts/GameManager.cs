@@ -11,8 +11,7 @@ namespace Solitaire
         Stock stock;
 
         public static event Action OnNewGameDeal;
-        public static event Action OnTableClear;
-        
+
         bool _dealInProgress;
 
         [SerializeField] Stock stockPrefab;
@@ -20,32 +19,17 @@ namespace Solitaire
 
         [SerializeField] float cardDealSpeed = 0.05f;
 
-        void OnEnable() => FoundationStack.OnAllFoundationsComplete += EndGame;
-        void OnDisable() => FoundationStack.OnAllFoundationsComplete -= EndGame;
-
-        void EndGame()
-        {
-            ClearTable();
-            StartCoroutine(DelayStartNewGame());
-        }
-
-        IEnumerator DelayStartNewGame()
-        {
-            yield return new WaitForSeconds(4);
-            DealNewGame();
-        }
-        
         void Start() => DealNewGame();
         public void DealNewGame()
         {
             if (_dealInProgress) return;
-            ClearTable();
             
-            CreateNewPlayingDeck();
             OnNewGameDeal?.Invoke();
+
+            CreateNewPlayingDeck();
+            
             StartCoroutine(DealMainStacks());
         }
-        void ClearTable() => OnTableClear?.Invoke();
 
         void CreateNewPlayingDeck()
         {
@@ -74,7 +58,14 @@ namespace Solitaire
             _dealInProgress = false;
         }
 
-        public void QuitGame() => Application.Quit();
+        public void QuitGame()
+        {
+            #if UNITY_WEBGL
+                return;
+            #endif
+            
+            Application.Quit();
+        }
 
     }
 }

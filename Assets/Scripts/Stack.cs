@@ -10,9 +10,9 @@ namespace Solitaire
         protected readonly List<PlayingCard> PlayingCardsInStack = new List<PlayingCard>();
         [SerializeField] protected float CardSpacing = 0.35f;
 
-        protected virtual void OnEnable() => GameManager.OnTableClear += Clear;
-        protected virtual void OnDisable() => GameManager.OnTableClear -= Clear;
-        
+        protected virtual void OnEnable() => GameManager.OnNewGameDeal += Clear;
+        protected virtual void OnDisable() => GameManager.OnNewGameDeal -= Clear;
+
         public void Transfer(PlayingCard card, Stack oldStack)
         {
             Stack newStack = this;
@@ -54,7 +54,6 @@ namespace Solitaire
         }
 
         public virtual bool CanAddCard(PlayingCard card) => false;
-        public int CardsInStack() => PlayingCardsInStack.Count;
 
         protected void Clear()
         {

@@ -21,8 +21,8 @@ namespace Solitaire
             _wasteStack = FindObjectOfType<WasteStack>();
         }
 
-        void OnEnable() => GameManager.OnTableClear += DestroySelf;
-        void OnDisable() => GameManager.OnTableClear -= DestroySelf;
+        void OnEnable() => GameManager.OnNewGameDeal += DestroySelf;
+        void OnDisable() => GameManager.OnNewGameDeal -= DestroySelf;
 
         void DestroySelf() => Destroy(gameObject);
 

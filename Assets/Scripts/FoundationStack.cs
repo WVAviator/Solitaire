@@ -7,17 +7,17 @@ namespace Solitaire
     public class FoundationStack : Stack
     {
         public static event Action OnAllFoundationsComplete;
-        static List<FoundationStack> foundations = new List<FoundationStack>();
+        static readonly List<FoundationStack> Foundations = new List<FoundationStack>();
 
         protected override void OnEnable()
         {
-            foundations.Add(this);
+            Foundations.Add(this);
             base.OnEnable();
         }
 
         protected override void OnDisable()
         {
-            foundations.Remove(this);
+            Foundations.Remove(this);
             base.OnDisable();
         }
 
@@ -40,9 +40,13 @@ namespace Solitaire
         public override void AddCard(PlayingCard card)
         {
             base.AddCard(card);
-            if (AllFoundationsComplete()) OnAllFoundationsComplete?.Invoke();
+            
+            if (!AllFoundationsComplete()) return;
+            
+            OnAllFoundationsComplete?.Invoke();
+            Foundations.ForEach(f => f.Clear());
         }
         
-        static bool AllFoundationsComplete() => foundations.All(us => us.IsComplete());
+        static bool AllFoundationsComplete() => Foundations.All(f => f.IsComplete());
     }
 }
