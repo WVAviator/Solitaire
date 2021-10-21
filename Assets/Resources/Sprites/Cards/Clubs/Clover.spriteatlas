@@ -64,19 +64,19 @@ SpriteAtlas:
   - {fileID: 21300000, guid: ee223ced78d675441897bf70d805e759, type: 3}
   - {fileID: 21300000, guid: 7ed1aeefcba30104bbc70c5a44343896, type: 3}
   m_PackedSpriteNamesToIndex:
-  - 7
-  - 2
-  - A
-  - 5
-  - 4
-  - K
-  - 3
-  - 9
-  - 10
-  - 8
-  - J
-  - 6
-  - Q
+  - Seven
+  - Two
+  - Ace
+  - Five
+  - Four
+  - King
+  - Three
+  - Nine
+  - Ten
+  - Eight
+  - Jack
+  - Six
+  - Queen
   m_RenderDataMap: {}
   m_Tag: Clover
   m_IsVariant: 0

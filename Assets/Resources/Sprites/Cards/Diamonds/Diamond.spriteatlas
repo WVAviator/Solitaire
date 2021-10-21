@@ -64,19 +64,19 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 6f2d1b6fa43cf9346aeb6d52af5f6e91, type: 3}
   - {fileID: 21300000, guid: 05ad9d7f2543a9247a3fbfa13f20e437, type: 3}
   m_PackedSpriteNamesToIndex:
-  - 7
-  - A
-  - Q
-  - 3
-  - 6
-  - 5
-  - K
-  - 4
-  - 2
-  - 8
-  - J
-  - 9
-  - 10
+  - Seven
+  - Ace
+  - Queen
+  - Three
+  - Six
+  - Five
+  - King
+  - Four
+  - Two
+  - Eight
+  - Jack
+  - Nine
+  - Ten
   m_RenderDataMap: {}
   m_Tag: Diamond
   m_IsVariant: 0

@@ -11,17 +11,17 @@ namespace Solitaire
         public int Rank => _rank;
         int _rank;
         public int Color => _suit / 2;
-        public int Index => _suit * 13 + _rank;
-        public string Name => $"{rankNames[_rank]} +  of  + {suitNames[_suit]}";
+        public string RankName => rankNames[_rank];
+        public string SuitName => suitNames[_suit];
 
         public CardData(int suit, int rank)
         {
-            this._suit = suit;
-            this._rank = rank;
+            _suit = suit;
+            _rank = rank;
         }
 
         static List<string> rankNames = new List<string>()
-            {"Ace", "Deuce", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King"};
+            {"Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King"};
 
         static List<string> suitNames = new List<string>()
             {"Hearts", "Diamonds", "Clubs", "Spades"};

@@ -64,19 +64,19 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 5d30c6aef5c9fad45b3060e287598994, type: 3}
   - {fileID: 21300000, guid: 05236fbe80e5b0442bb27c7770ce5698, type: 3}
   m_PackedSpriteNamesToIndex:
-  - 8
-  - 5
-  - 6
-  - 7
-  - A
-  - J
-  - 10
-  - Q
-  - 2
-  - 3
-  - K
-  - 4
-  - 9
+  - Eight
+  - Five
+  - Six
+  - Seven
+  - Ace
+  - Jack
+  - Ten
+  - Queen
+  - Two
+  - Three
+  - King
+  - Four
+  - Nine
   m_RenderDataMap: {}
   m_Tag: Heart
   m_IsVariant: 0

@@ -66,20 +66,20 @@ SpriteAtlas:
   - {fileID: 21300000, guid: af3805bdc14bd534698b7989df91ff94, type: 3}
   - {fileID: 21300000, guid: 28a361bfc96401045a97ef18f2a9bd1b, type: 3}
   m_PackedSpriteNamesToIndex:
-  - 10
-  - 5
-  - J
-  - 4
+  - Ten
+  - Five
+  - Jack
+  - Four
   - 02
-  - 8
-  - K
-  - 6
-  - 7
-  - 3
-  - A
-  - 2
-  - 9
-  - Q
+  - Eight
+  - King
+  - Six
+  - Seven
+  - Three
+  - Ace
+  - Two
+  - Nine
+  - Queen
   m_RenderDataMap: {}
   m_Tag: Spades
   m_IsVariant: 0

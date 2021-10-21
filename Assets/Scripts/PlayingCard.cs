@@ -29,7 +29,9 @@ namespace Solitaire
             _cardData = c;
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _cardAnimation = GetComponent<CardAnimation>();
-            _faceUpSprite = CardSprites.Instance.GetSprite(c);
+            
+            string spritePath = $"Sprites/Cards/{c.SuitName}/{c.RankName}";
+            _faceUpSprite = Resources.Load<Sprite>(spritePath);
         }
         
         public void TurnFaceUp()
@@ -66,7 +68,7 @@ namespace Solitaire
         }
 
         bool IsInWaste() => _currentStack.GetType() == typeof(WasteStack);
-        void SetHome(Vector3 homePosition) => this._homePosition = homePosition;
+        void SetHome(Vector3 homePosition) => _homePosition = homePosition;
         
 
         void DragCard(Vector2 updatedPosition)
