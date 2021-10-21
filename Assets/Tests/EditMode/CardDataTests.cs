@@ -6,53 +6,50 @@ using UnityEngine;
 
 public class CardDataTests
     {
-        [Test]
-        public void CardColorValue()
+        [TestCase(0, 0)]
+        [TestCase(1, 0)]
+        [TestCase(2, 1)]
+        [TestCase(3, 2)]
+        public void Color_CardDataSuit_ReturnsCorrectColor(int suit, int expected)
         {
-            CardData aceOfDiamonds = new CardData(1, 0);
-            CardData aceOfClubs = new CardData(2, 0);
-            Assert.AreEqual(false, aceOfClubs.Color == aceOfDiamonds.Color);
-            
-            for (int i = 0; i < 13; i++)
-            {
-                Assert.AreEqual((new CardData(0, i)).Color, 0);
-                Assert.AreEqual((new CardData(1, i)).Color, 0);
-                Assert.AreEqual((new CardData(2, i)).Color, 1);
-                Assert.AreEqual((new CardData(3, i)).Color, 1);
-            }
+            CardData card = new CardData(suit, 0);
+            int actual = card.Color;
+            Assert.AreEqual(expected, actual);
+        }
+        
+        [TestCase(0, "Hearts")]
+        [TestCase(1, "Diamonds")]
+        [TestCase(2, "Clubs")]
+        [TestCase(3, "Spades"]
+        public void SuitName_CardDataSuit_ReturnsCorrectName(int suit, string expected)
+        {
+            CardData card = new CardData(suit, 0);
+            string actual = card.SuitName;
+            Assert.AreEqual(expected, actual);
+        }
+    
+        [TestCase(0, "Ace")]
+        [TestCase(1, "Two")]
+        [TestCase(2, "Three")]
+        [TestCase(3, "Four")]
+        [TestCase(4, "Five")]
+        [TestCase(5, "Six")]
+        [TestCase(6, "Seven")]
+        [TestCase(7, "Eight")]
+        [TestCase(8, "Nine")]
+        [TestCase(9, "Ten")]
+        [TestCase(10, "Jack")]
+        [TestCase(11, "Queen")]
+        [TestCase(12, "King")]   
+        public void RankName_CardDataRank_ReturnsCorrectName(int rank, string expected)
+        {
+            CardData card = new CardData(0, rank);
+            string actual = card.RankName;
+            Assert.AreEqual(expected, actual);
         }
 
         [Test]
-        public void CardNameMatchesInstancedValue()
-        {
-            for (int i = 0; i < 13; i++)
-            {
-                Assert.AreEqual((new CardData(0, i)).SuitName, "Hearts");
-                Assert.AreEqual((new CardData(1, i)).SuitName, "Diamonds");
-                Assert.AreEqual((new CardData(2, i)).SuitName, "Clubs");
-                Assert.AreEqual((new CardData(3, i)).SuitName, "Spades");
-            }
-
-            for (int i = 0; i < 4; i++)
-            {
-                Assert.AreEqual((new CardData(i, 0)).RankName, "Ace");
-                Assert.AreEqual((new CardData(i, 1)).RankName, "Two");
-                Assert.AreEqual((new CardData(i, 2)).RankName, "Three");
-                Assert.AreEqual((new CardData(i, 3)).RankName, "Four");
-                Assert.AreEqual((new CardData(i, 4)).RankName, "Five");
-                Assert.AreEqual((new CardData(i, 5)).RankName, "Six");
-                Assert.AreEqual((new CardData(i, 6)).RankName, "Seven");
-                Assert.AreEqual((new CardData(i, 7)).RankName, "Eight");
-                Assert.AreEqual((new CardData(i, 8)).RankName, "Nine");
-                Assert.AreEqual((new CardData(i, 9)).RankName, "Ten");
-                Assert.AreEqual((new CardData(i, 10)).RankName, "Jack");
-                Assert.AreEqual((new CardData(i, 11)).RankName, "Queen");
-                Assert.AreEqual((new CardData(i, 12)).RankName, "King");
-            }
-        }
-
-        [Test]
-        public void CardSpritesExistInFolder()
+        public void CardSprites_ExistInDirectory()
         {
             Deck deck = new Deck();
             for (int i = 0; i < 52; i++)
@@ -60,7 +57,7 @@ public class CardDataTests
                 CardData card = deck.DrawCard();
                 string path = $"Sprites/Cards/{card.SuitName}/{card.RankName}";
                 Sprite s = Resources.Load<Sprite>(path);
-                Assert.NotNull(s, $"Sprite for {card.RankName} of {card.SuitName} not found.");
+                Assert.NotNull(s, $"Sprite for {card.RankName} of {card.SuitName} not found in directory: {path}.");
             }
         }
         
