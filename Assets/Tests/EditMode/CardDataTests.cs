@@ -9,7 +9,7 @@ public class CardDataTests
         [TestCase(0, 0)]
         [TestCase(1, 0)]
         [TestCase(2, 1)]
-        [TestCase(3, 2)]
+        [TestCase(3, 1)]
         public void Color_CardDataSuit_ReturnsCorrectColor(int suit, int expected)
         {
             CardData card = new CardData(suit, 0);
