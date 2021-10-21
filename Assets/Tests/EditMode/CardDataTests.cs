@@ -12,6 +12,14 @@ public class CardDataTests
             CardData aceOfDiamonds = new CardData(1, 0);
             CardData aceOfClubs = new CardData(2, 0);
             Assert.AreEqual(false, aceOfClubs.Color == aceOfDiamonds.Color);
+            
+            for (int i = 0; i < 13; i++)
+            {
+                Assert.AreEqual((new CardData(0, i)).Color, 0);
+                Assert.AreEqual((new CardData(1, i)).Color, 0);
+                Assert.AreEqual((new CardData(2, i)).Color, 1);
+                Assert.AreEqual((new CardData(3, i)).Color, 1);
+            }
         }
 
         [Test]
