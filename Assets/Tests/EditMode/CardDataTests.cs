@@ -20,7 +20,7 @@ public class CardDataTests
         [TestCase(0, "Hearts")]
         [TestCase(1, "Diamonds")]
         [TestCase(2, "Clubs")]
-        [TestCase(3, "Spades"]
+        [TestCase(3, "Spades")]
         public void SuitName_CardDataSuit_ReturnsCorrectName(int suit, string expected)
         {
             CardData card = new CardData(suit, 0);
