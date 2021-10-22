@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 4542785877884883158}
   - component: {fileID: 4542785877884883153}
   - component: {fileID: 4542785877884883152}
+  - component: {fileID: 1839219209}
+  - component: {fileID: 4375826462547297100}
   m_Layer: 0
   m_Name: Stock
   m_TagString: Untagged
@@ -26,7 +28,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4542785877884883156}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.6, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -98,6 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drawCount: 3
   cardPrefab: {fileID: 1414872920777088591, guid: d049cc245100b58468fa69b9b8e35c6c, type: 3}
+  cardDealSpeed: 0.05
 --- !u!61 &4542785877884883152
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -124,3 +127,31 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.2, y: 1.72}
   m_EdgeRadius: 0
+--- !u!114 &1839219209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4542785877884883156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b169b2a985e4451a2d83b3b41ace0f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dealSound:
+    clip: {fileID: 8300000, guid: 18c0ac38841006d44aed00d790b5ed80, type: 3}
+    volume: 0.5
+    pitch: 1
+--- !u!114 &4375826462547297100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4542785877884883156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51e7d27e9e76476daf175b9a6b169a07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -16780,7 +16780,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4542785877884883153, guid: eb03a9f4f56648c40a611ba4f94af72b, type: 3}
   m_PrefabInstance: {fileID: 1199714723}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1839219205}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b1ea7aec85c24e4581d51317964ed624, type: 3}
@@ -21783,27 +21783,6 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!1 &1839219205 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4542785877884883156, guid: eb03a9f4f56648c40a611ba4f94af72b, type: 3}
-  m_PrefabInstance: {fileID: 1199714723}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1839219209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1839219205}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b169b2a985e4451a2d83b3b41ace0f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dealSound:
-    clip: {fileID: 8300000, guid: 18c0ac38841006d44aed00d790b5ed80, type: 3}
-    volume: 0.5
-    pitch: 1
 --- !u!1 &1856261569
 GameObject:
   m_ObjectHideFlags: 0

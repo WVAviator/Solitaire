@@ -15,29 +15,17 @@ namespace Solitaire
         [SerializeField] float cardDealSpeed = 0.05f;
         
         WasteStack _wasteStack;
-        SpriteRenderer _spriteRenderer;
         StockSounds _stockSounds;
         bool _dealInProgress;
         public static event Action OnNewGameDeal;
+        public event Action OnDeckChanged;
         void Awake()
         {
             Deck = new Deck();
-            _spriteRenderer = GetComponent<SpriteRenderer>();
             _wasteStack = FindObjectOfType<WasteStack>();
             _stockSounds = GetComponent<StockSounds>();
         }
         void Start() => DealNewGame();
-
-        public CardInfo DrawCard()
-        {
-            CardInfo nextCard = Deck.DrawCard();
-            UpdateStockSprite();
-            return nextCard;
-        }
-
-        void UpdateStockSprite() => _spriteRenderer.enabled = Deck.CardsRemaining() != 0;
-        
-
         public void Click()
         {
             int numberOfCardsToDraw = GetNumberOfCardsToDraw();
@@ -48,16 +36,16 @@ namespace Solitaire
                 return;
             }
 
-            PlayingCard[] cards = DrawCardsFromDeck(numberOfCardsToDraw);
+            PlayingCard[] cards = DealCardsToWaste(numberOfCardsToDraw);
             _wasteStack.RevealCards(cards);
         }
 
-        PlayingCard[] DrawCardsFromDeck(int cardsToDraw)
+        PlayingCard[] DealCardsToWaste(int cardsToDraw)
         {
             PlayingCard[] cards = new PlayingCard[cardsToDraw];
             for (int i = 0; i < cardsToDraw; i++)
             {
-                cards[i] = DrawAndSetNewCard(true);
+                cards[i] = DrawAndSetNewPlayingCard(true);
             }
             return cards;
         }
@@ -72,7 +60,7 @@ namespace Solitaire
         void RecycleWaste()
         {
             Deck = new Deck(_wasteStack.GetRecycledStock());
-            UpdateStockSprite();
+            OnDeckChanged?.Invoke();
         }
         
         public void DealNewGame()
@@ -83,9 +71,9 @@ namespace Solitaire
             OnNewGameDeal?.Invoke();
             _stockSounds.PlayDealSound();
 
-            StartCoroutine(DealMainStacks());
+            StartCoroutine(DealCardsToTableau());
         }
-        IEnumerator DealMainStacks()
+        IEnumerator DealCardsToTableau()
         {
             _dealInProgress = true;
 
@@ -93,7 +81,7 @@ namespace Solitaire
             {
                 for (int j = i; j < 7; j++)
                 {
-                    TableauStack.Tableaux[j].AddCard(DrawAndSetNewCard(i == j));
+                    TableauStack.Tableaux[j].AddCard(DrawAndSetNewPlayingCard(i == j));
                     yield return new WaitForSeconds(cardDealSpeed);
                 }
             }
@@ -101,13 +89,19 @@ namespace Solitaire
             _dealInProgress = false;
         }
 
-        PlayingCard DrawAndSetNewCard(bool turnFaceUp)
+        PlayingCard DrawAndSetNewPlayingCard(bool turnFaceUp)
         {
             PlayingCard newCard =
                 Instantiate(cardPrefab, transform.position, Quaternion.identity);
             newCard.SetCard(DrawCard());
-            if (turnFaceUp) newCard.TurnFaceUp();
+            if (turnFaceUp) newCard.Click();
             return newCard;
+        }
+        CardInfo DrawCard()
+        {
+            CardInfo nextCard = Deck.DrawCard();
+            OnDeckChanged?.Invoke();
+            return nextCard;
         }
     }
 }

@@ -18,38 +18,23 @@ namespace Solitaire
         Sprite _faceUpSprite;
         SpriteRenderer _spriteRenderer;
         CardAnimation _cardAnimation;
+        CardVisuals _cardVisuals;
 
         public event Action OnCardPicked;
         public event Action OnCardPlaced;
-        public event Action OnCardFlipped;
+
 
 
         public void SetCard(CardInfo c)
         {
             _cardInfo = c;
-            _spriteRenderer = GetComponent<SpriteRenderer>();
             _cardAnimation = GetComponent<CardAnimation>();
             
-            string spritePath = $"Sprites/Cards/{c.SuitName}/{c.RankName}";
-            _faceUpSprite = Resources.Load<Sprite>(spritePath);
-        }
-        
-        public void TurnFaceUp()
-        {
-            _isFlipped = true;
-            _spriteRenderer.sprite = _faceUpSprite;
-            OnCardFlipped?.Invoke();
+            _cardVisuals = gameObject.AddComponent<CardVisuals>();
+            _cardVisuals.SetFaceUpSprite(_cardInfo);
         }
 
-        public void Click()
-        {
-            if (!HasChildren() && !_isFlipped) TurnFaceUp();
-        }
-        
-        bool HasChildren()
-        {
-            return transform.childCount != 0;
-        }
+        public void Click() => _cardVisuals.TurnFaceUp();
 
         public void MoveToPosition(Vector3 position, bool skipAnimation = false)
         {
@@ -66,7 +51,8 @@ namespace Solitaire
             if (!_isBeingDragged) OnCardPicked?.Invoke();
             DragCard(updatedPosition - clickedPositionOffset);
         }
-
+        
+        bool HasChildren() => transform.childCount != 0;
         bool IsInWaste() => _currentStack.GetType() == typeof(WasteStack);
         void SetHome(Vector3 homePosition) => _homePosition = homePosition;
         
