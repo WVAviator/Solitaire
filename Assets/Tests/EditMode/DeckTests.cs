@@ -7,7 +7,7 @@ using Solitaire;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-public class DeckDataTests
+public class DeckTests
 {
     [Test]
     public void CardsRemaining_NewDeck_Has52Cards()
@@ -36,7 +36,7 @@ public class DeckDataTests
     public void DrawCard_AllCards_AreUnique()
     {
         Deck deck = new Deck();
-        List<CardData> cards = new List<CardData>();
+        List<CardInfo> cards = new List<CardInfo>();
         for (int i = 0; i < 52; i++)
         {
             cards.Add(deck.DrawCard());

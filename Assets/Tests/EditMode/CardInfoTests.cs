@@ -4,7 +4,7 @@ using NUnit.Framework;
 using Solitaire;
 using UnityEngine;
 
-public class CardDataTests
+public class CardInfoTests
     {
         [TestCase(0, 0)]
         [TestCase(1, 0)]
@@ -12,7 +12,7 @@ public class CardDataTests
         [TestCase(3, 1)]
         public void Color_CardDataSuit_ReturnsCorrectColor(int suit, int expected)
         {
-            CardData card = new CardData(suit, 0);
+            CardInfo card = new CardInfo(suit, 0);
             int actual = card.Color;
             Assert.AreEqual(expected, actual);
         }
@@ -23,7 +23,7 @@ public class CardDataTests
         [TestCase(3, "Spades")]
         public void SuitName_CardDataSuit_ReturnsCorrectName(int suit, string expected)
         {
-            CardData card = new CardData(suit, 0);
+            CardInfo card = new CardInfo(suit, 0);
             string actual = card.SuitName;
             Assert.AreEqual(expected, actual);
         }
@@ -43,7 +43,7 @@ public class CardDataTests
         [TestCase(12, "King")]   
         public void RankName_CardDataRank_ReturnsCorrectName(int rank, string expected)
         {
-            CardData card = new CardData(0, rank);
+            CardInfo card = new CardInfo(0, rank);
             string actual = card.RankName;
             Assert.AreEqual(expected, actual);
         }
@@ -54,7 +54,7 @@ public class CardDataTests
             Deck deck = new Deck();
             for (int i = 0; i < 52; i++)
             {
-                CardData card = deck.DrawCard();
+                CardInfo card = deck.DrawCard();
                 string path = $"Sprites/Cards/{card.SuitName}/{card.RankName}";
                 Sprite s = Resources.Load<Sprite>(path);
                 Assert.NotNull(s, $"Sprite for {card.RankName} of {card.SuitName} not found in directory: {path}.");

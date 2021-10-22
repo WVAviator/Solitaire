@@ -6,8 +6,8 @@ namespace Solitaire
 {
     public class PlayingCard : MonoBehaviour, IClickable, IDraggable
     {
-        public CardData CardData => _cardData;
-        CardData _cardData;
+        public CardInfo CardInfo => _cardInfo;
+        CardInfo _cardInfo;
         Stack _currentStack;
 
         bool _isFlipped;
@@ -24,9 +24,9 @@ namespace Solitaire
         public event Action OnCardFlipped;
 
 
-        public void SetCard(CardData c)
+        public void SetCard(CardInfo c)
         {
-            _cardData = c;
+            _cardInfo = c;
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _cardAnimation = GetComponent<CardAnimation>();
             

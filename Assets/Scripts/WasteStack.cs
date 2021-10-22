@@ -53,12 +53,12 @@ namespace Solitaire
             card.MoveToPosition(targetPosition);
         }
 
-        public Stack<CardData> GetRecycledStock()
+        public Stack<CardInfo> GetRecycledStock()
         {
-            Stack<CardData> newStack = new Stack<CardData>();
+            Stack<CardInfo> newStack = new Stack<CardInfo>();
             for (int i = PlayingCardsInStack.Count - 1; i >= 0; i--)
             {
-                newStack.Push(PlayingCardsInStack[i].CardData);
+                newStack.Push(PlayingCardsInStack[i].CardInfo);
             }
 
             Clear();

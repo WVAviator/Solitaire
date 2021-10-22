@@ -5,6 +5,20 @@ namespace Solitaire
 {
     public class TableauStack : Stack
     {
+        public static List<TableauStack> Tableaux = new List<TableauStack>();
+
+        protected override void OnEnable()
+        {
+            Tableaux.Add(this);
+            Tableaux = Tableaux.OrderBy(t => t.transform.position.x).ToList();
+            base.OnEnable();
+        }
+
+        protected override void OnDisable()
+        {
+            Tableaux.Remove(this);
+            base.OnDisable();
+        }
         public override void AddCard(PlayingCard card)
         {
             List<PlayingCard> allCards = new List<PlayingCard>( card.GetComponentsInChildren<PlayingCard>());
@@ -12,8 +26,8 @@ namespace Solitaire
         }
         public override bool CanAddCard(PlayingCard card)
         {
-            int rank = card.CardData.Rank;
-            int color = card.CardData.Color;
+            int rank = card.CardInfo.Rank;
+            int color = card.CardInfo.Color;
 
             if (EmptyStack()) return IsKing(card);
 
@@ -21,11 +35,11 @@ namespace Solitaire
 
             return IsSequentialAlternatingColor(rank, color, lastCard);
         }
-        static bool IsKing(PlayingCard card) => card.CardData.Rank == 12;
+        static bool IsKing(PlayingCard card) => card.CardInfo.Rank == 12;
         bool EmptyStack() => PlayingCardsInStack.Count == 0;
         bool IsSequentialAlternatingColor(int rank, int color, PlayingCard lastCard)
         {
-            return rank == lastCard.CardData.Rank - 1 && color != lastCard.CardData.Color;
+            return rank == lastCard.CardInfo.Rank - 1 && color != lastCard.CardInfo.Color;
         }
     }
 }

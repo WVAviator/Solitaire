@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Solitaire
 {
     [Serializable]
-    public struct CardData
+    public struct CardInfo
     {
         public int Suit => _suit;
         int _suit;
@@ -14,7 +14,7 @@ namespace Solitaire
         public string RankName => rankNames[_rank];
         public string SuitName => suitNames[_suit];
 
-        public CardData(int suit, int rank)
+        public CardInfo(int suit, int rank)
         {
             _suit = suit;
             _rank = rank;

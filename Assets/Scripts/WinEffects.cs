@@ -12,15 +12,23 @@ namespace Solitaire
         [SerializeField] ParticleSystem diamonds;
         [SerializeField] ParticleSystem clubs;
         [SerializeField] ParticleSystem spades;
+        
+        [SerializeField] Sound winSound;
 
-        void Awake() => DisableParticles();
+        void Awake()
+        {
+            DisableParticles();
+            winSound.Source = gameObject.AddComponent<AudioSource>();
+        }
+
         void OnEnable() => FoundationStack.OnAllFoundationsComplete += InitiateEffects;
         void OnDisable() => FoundationStack.OnAllFoundationsComplete -= InitiateEffects;
         
-        void InitiateEffects()
+        void InitiateEffects(List<FoundationStack> foundationStacks)
         {
-            OrientEffectsToSuit();
+            OrientEffectsToSuit(foundationStacks);
             StartCoroutine(LaunchWinEffects());
+            winSound.Play();
         }
 
         IEnumerator LaunchWinEffects()
@@ -46,9 +54,9 @@ namespace Solitaire
             spades.Play();
         }
 
-        void OrientEffectsToSuit()
+        void OrientEffectsToSuit(List<FoundationStack> foundationStacks)
         {
-            foreach (FoundationStack f in GameBoard.Instance.Foundations)
+            foreach (FoundationStack f in foundationStacks)
             {
                 if (f.GetFoundationSuit() == 0) hearts.transform.position = f.transform.position;
                 if (f.GetFoundationSuit() == 1) diamonds.transform.position = f.transform.position;

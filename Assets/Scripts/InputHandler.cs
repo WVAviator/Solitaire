@@ -95,5 +95,14 @@ namespace Solitaire
             if (potentialStuckCollider.TryGetComponent(out IDraggable dragged)) dragged.Release(potentialStuckCollider);
         }
         
+        public void QuitGame()
+        {
+#if UNITY_WEBGL
+            return;
+#endif
+            
+            Application.Quit();
+        }
+        
     }
 }
