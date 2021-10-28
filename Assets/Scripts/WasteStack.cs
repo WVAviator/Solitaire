@@ -5,52 +5,26 @@ namespace Solitaire
 {
     public class WasteStack : Stack
     {
-        int _cardsRemainingInReveal;
-        int _cardsDrawnThisReveal;
+        List<PlayingCard> _reveal = new List<PlayingCard>();
 
-        public void RevealCards(PlayingCard[] cards)
+        public void ResetRevealedCards()
         {
-            _cardsRemainingInReveal = cards.Length;
-            _cardsDrawnThisReveal = _cardsRemainingInReveal;
-
+            _reveal.Clear();
             ReorganizeExistingCards();
-
-            DrawNewCards(cards);
         }
 
-        void DrawNewCards(PlayingCard[] cards)
-        {
-            foreach (PlayingCard c in cards)
-            {
-                AddCard(c);
-            }
-        }
+        public void AddToRevealedCards(PlayingCard card) => _reveal.Add(card);
 
-        void ReorganizeExistingCards()
+        public override Vector3 GetPosition(PlayingCard card)
         {
-            foreach (PlayingCard card in PlayingCardsInStack)
-            {
-                Vector3 newPosition;
-                newPosition.x = transform.position.x;
-                newPosition.y = transform.position.y;
-                newPosition.z = ZPositionFromListPosition(card);
-                
-                card.MoveToPosition(newPosition, true);
-            }
-        }
-
-        float ZPositionFromListPosition(PlayingCard card) => -0.01f * PlayingCardsInStack.IndexOf(card);
-
-        protected override void SetPosition(PlayingCard card)
-        {
-            int positionInDraw = _cardsDrawnThisReveal - _cardsRemainingInReveal--;
-            
             Vector3 targetPosition;
+            
             targetPosition.x = transform.position.x;
-            targetPosition.y = YPositionWithSpacing(positionInDraw);
-            targetPosition.z = ZPositionWithLayering();
+            targetPosition.y = 
+                IsInReveal(card) ? YPositionWithSpacing( _reveal.IndexOf(card)) : transform.position.y;
+            targetPosition.z = ZPositionWithLayering(PlayingCardsInStack.IndexOf(card));
 
-            card.MoveToPosition(targetPosition);
+            return targetPosition;
         }
 
         public Stack<CardInfo> GetRecycledStock()
@@ -63,6 +37,13 @@ namespace Solitaire
 
             Clear();
             return newStack;
+        }
+
+        bool IsInReveal(PlayingCard card) => _reveal.Contains(card);
+
+        void ReorganizeExistingCards()
+        {
+            foreach (PlayingCard card in PlayingCardsInStack) card.UpdateCurrentStack(this);
         }
     }
 }

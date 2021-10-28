@@ -3,7 +3,7 @@ using Random = System.Random;
 
 namespace Solitaire
 {
-    public static class Utilities
+    public static class Extensions
     {
         static Random rng = new Random();
         public static void Shuffle<T>(this IList<T> list)

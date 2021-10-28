@@ -1,13 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Solitaire
 {
     public class Deck
     {
-        readonly Stack<CardInfo> cardStack;
+        readonly Stack<CardInfo> _cardStack;
         public Deck()
+        {
+            List<CardInfo> cards = BuildNewDeck();
+
+            cards.Shuffle();
+            _cardStack = new Stack<CardInfo>(cards);
+        }
+
+        public Deck(Stack<CardInfo> cardStack)
+        {
+            _cardStack = cardStack;
+        }
+
+        public CardInfo DrawCard()
+        {
+            if (CardsRemaining() != 0) return _cardStack.Pop();
+            
+            Debug.Log("Attempted to draw from an empty deck.");
+            return new CardInfo(0, 0);
+        }
+
+        public int CardsRemaining() => _cardStack.Count;
+
+        static List<CardInfo> BuildNewDeck()
         {
             List<CardInfo> cards = new List<CardInfo>();
             for (int r = 0; r < 13; r++)
@@ -18,27 +40,8 @@ namespace Solitaire
                     cards.Add(newCard);
                 }
             }
-            
-            cards.Shuffle();
-            cardStack = new Stack<CardInfo>(cards);
-        }
 
-        public Deck(Stack<CardInfo> cardStack)
-        {
-            this.cardStack = cardStack;
+            return cards;
         }
-
-        public CardInfo DrawCard()
-        {
-            if (CardsRemaining() == 0)
-            {
-                Debug.Log("Attempted to draw from an empty deck.");
-                return new CardInfo(0, 0);
-            }
-            return cardStack.Pop();
-        }
-
-        public int CardsRemaining() => cardStack.Count;
-        
     }
 }

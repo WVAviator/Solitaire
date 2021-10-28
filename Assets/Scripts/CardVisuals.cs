@@ -7,15 +7,14 @@ namespace Solitaire
     {
         SpriteRenderer _spriteRenderer;
         Sprite _faceUpSprite;
+
+        public bool IsFlipped => _isFlipped;
         bool _isFlipped;
         
         public event Action OnCardFlipped;
 
-        void Awake()
-        {
-            _spriteRenderer = GetComponent<SpriteRenderer>();
-        }
-        
+        void Awake() => _spriteRenderer = GetComponent<SpriteRenderer>();
+
         public void SetFaceUpSprite(CardInfo cardInfo)
         {
             string spritePath = $"Sprites/Cards/{cardInfo.SuitName}/{cardInfo.RankName}";

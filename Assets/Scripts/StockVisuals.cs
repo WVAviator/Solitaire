@@ -5,18 +5,18 @@ namespace Solitaire
     public class StockVisuals : MonoBehaviour
     {
         SpriteRenderer _spriteRenderer;
-        Stock stock;
+        Stock _stock;
 
         void Awake()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
-            stock = GetComponent<Stock>();
+            _stock = GetComponent<Stock>();
         }
 
-        void OnEnable() => stock.OnDeckChanged += UpdateStockSprite;
-        void OnDisable() => stock.OnDeckChanged -= UpdateStockSprite;
+        void OnEnable() => _stock.OnDeckChanged += UpdateStockSprite;
+        void OnDisable() => _stock.OnDeckChanged -= UpdateStockSprite;
         
-        void UpdateStockSprite() => _spriteRenderer.enabled = stock.Deck.CardsRemaining() != 0;
+        void UpdateStockSprite() => _spriteRenderer.enabled = _stock.Deck.CardsRemaining() != 0;
 
 
     }

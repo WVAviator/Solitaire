@@ -19,11 +19,7 @@ namespace Solitaire
             Tableaux.Remove(this);
             base.OnDisable();
         }
-        public override void AddCard(PlayingCard card)
-        {
-            List<PlayingCard> allCards = new List<PlayingCard>( card.GetComponentsInChildren<PlayingCard>());
-            foreach (PlayingCard c in allCards) base.AddCard(c);
-        }
+
         public override bool CanAddCard(PlayingCard card)
         {
             int rank = card.CardInfo.Rank;
@@ -35,6 +31,19 @@ namespace Solitaire
 
             return IsSequentialAlternatingColor(rank, color, lastCard);
         }
+
+        protected override void AddCard(PlayingCard card)
+        {
+            List<PlayingCard> allCards = new List<PlayingCard>( card.GetComponentsInChildren<PlayingCard>());
+            allCards.OrderByDescending(c => c.CardInfo.Rank);
+
+            foreach (PlayingCard c in allCards)
+            {
+                base.AddCard(c);
+                c.UpdateCurrentStack(this);
+            }
+        }
+
         static bool IsKing(PlayingCard card) => card.CardInfo.Rank == 12;
         bool EmptyStack() => PlayingCardsInStack.Count == 0;
         bool IsSequentialAlternatingColor(int rank, int color, PlayingCard lastCard)

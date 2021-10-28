@@ -12,6 +12,13 @@ namespace Solitaire
         public static event Action OnCardAnimationBegins;
         public static event Action OnCardAnimationEnds;
 
+        public void SetAnimationTargetPosition(Vector3 position)
+        {
+            _targetPosition = position;
+            _animationActive = true;
+            OnCardAnimationBegins?.Invoke();
+        }
+
         void Update()
         {
             if (!_animationActive) return;
@@ -24,6 +31,12 @@ namespace Solitaire
             AnimateMovement();
         }
 
+        void FinishAnimation()
+        {
+            OnCardAnimationEnds?.Invoke();
+            _animationActive = false;
+        }
+
         void AnimateMovement()
         {
             transform.position =
@@ -33,18 +46,5 @@ namespace Solitaire
         }
 
         bool IsCloseEnough() => (transform.position - _targetPosition).sqrMagnitude < 0.001f;
-
-        void FinishAnimation()
-        {
-            OnCardAnimationEnds?.Invoke();
-            _animationActive = false;
-        }
-
-        public void SetAnimationTargetPosition(Vector3 position)
-        {
-            _targetPosition = position;
-            _animationActive = true;
-            OnCardAnimationBegins?.Invoke();
-        }
     }
 }

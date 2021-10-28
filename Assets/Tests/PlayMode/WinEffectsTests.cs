@@ -34,7 +34,7 @@ namespace Tests.PlayMode
             PlayingCard[] cards = Object.FindObjectsOfType<PlayingCard>();
             foreach (PlayingCard card in cards)
             {
-                stacks[card.CardInfo.Suit].AddCard(card);
+                stacks[card.CardInfo.Suit].Transfer(card, null);
             }
 
             yield return new WaitForSeconds(2);

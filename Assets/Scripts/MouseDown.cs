@@ -4,27 +4,52 @@ namespace Solitaire
 {
     public class MouseDown
     {
-        public Vector2 ScreenPoint => _screenPoint;
-        readonly Vector2 _screenPoint;
-
-        public Vector2 WorldPoint => _worldPoint;
-        readonly Vector2 _worldPoint;
-
-        public Collider2D Collider => _collider;
+        public Vector2 ClickedScreenPosition { get; }
+        
+        readonly Vector2 _clickedWorldPosition;
         readonly Collider2D _collider;
-
-        public Vector2 ColliderInitialPosition => _colliderInitialPosition;
         readonly Vector2 _colliderInitialPosition;
 
-        public MouseDown(Camera mainCamera)
+        public MouseDown(Vector2 clickedWorldPosition)
         {
-            _screenPoint = Input.mousePosition;
-            _worldPoint = mainCamera.ScreenToWorldPoint(_screenPoint);
-            _collider = GetColliderUnderCursor();
+            ClickedScreenPosition = Input.mousePosition;
+            _clickedWorldPosition = clickedWorldPosition;
+            _collider = GetCollider(_clickedWorldPosition, 1);
             if (_collider != null) _colliderInitialPosition = _collider.transform.position;
         }
-        
-        Collider2D GetColliderUnderCursor() => Physics2D.OverlapPoint(_worldPoint, 1);
+
+        public void DragTo(Vector2 currentMousePosition)
+        {
+            if (_collider == null) return;
+            Vector2 clickedPositionOffset = _clickedWorldPosition - _colliderInitialPosition;
+            if (_collider.TryGetComponent(out IDraggable dragged)) dragged.Drag(currentMousePosition, clickedPositionOffset);
+        }
+
+        public void Release()
+        {
+            if (_collider == null) return;
+
+            Collider2D releaseCollider = GetCollider(_collider.transform.position, 1);
+            if (releaseCollider == null) releaseCollider = _collider;
+            if (_collider.TryGetComponent(out IDraggable dragged)) dragged.Release(releaseCollider);
+        }
+
+        public void Click(Vector2 currentMousePosition)
+        {
+            FixPotentialStuckCollider(currentMousePosition);
+            
+            if (_collider == null) return;
+            if (_collider.TryGetComponent(out IClickable clickedSprite)) clickedSprite.Click();
+        }
+
+        Collider2D GetCollider(Vector3 position, int layer) => Physics2D.OverlapPoint(position, layer);
+
+        void FixPotentialStuckCollider(Vector2 currentMousePosition)
+        {
+            Collider2D potentialStuckCollider = GetCollider(currentMousePosition, 8);
+            if (potentialStuckCollider == null) return;
+            if (potentialStuckCollider.TryGetComponent(out IDraggable dragged)) dragged.Release(potentialStuckCollider);
+        }
         
     }
 }

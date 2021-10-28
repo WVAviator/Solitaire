@@ -11,7 +11,7 @@ namespace Solitaire
 
         Camera _mainCamera;
         bool _isDragging;
-        Vector2 _currentPoint;
+        Vector2 _currentMouseWorldPosition;
 
         MouseDown _mouseDown;
 
@@ -34,11 +34,10 @@ namespace Solitaire
         {
             if (!_inputAllowed) return;
             
-            SetCurrentPointerLocation();
+            SetCurrentMouseWorldPosition();
 
-            if (Input.GetMouseButtonDown(0)) _mouseDown = new MouseDown(_mainCamera);
+            if (Input.GetMouseButtonDown(0)) _mouseDown = new MouseDown(_currentMouseWorldPosition);
             
-
             if (Input.GetMouseButtonUp(0))
             {
                 if (!_isDragging) ProcessClick();
@@ -46,61 +45,27 @@ namespace Solitaire
                 _isDragging = false;
             }
 
-            if (Input.GetMouseButton(0)) _isDragging = HasDraggedFarEnough();
-            
+            if (Input.GetMouseButton(0)) _isDragging = MovedEnoughToBeConsideredDragging();
             if (_isDragging) ProcessDrag();
         }
 
-        bool HasDraggedFarEnough() =>
-            ((Vector2) Input.mousePosition - _mouseDown.ScreenPoint).sqrMagnitude >
+        bool MovedEnoughToBeConsideredDragging() =>
+            ((Vector2)Input.mousePosition - _mouseDown.ClickedScreenPosition).sqrMagnitude >
             (minimumDragDistance * minimumDragDistance);
 
-        void SetCurrentPointerLocation()
-        {
-            _currentPoint = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        }
-
-        Collider2D GetColliderUnderCollider()
-        {
-            return Physics2D.OverlapPoint(_mouseDown.Collider.transform.position, 1);
-        }
-
-        void ProcessClick()
-        {
-            FixPotentialStuckCollider();
-            
-            if (_mouseDown.Collider == null) return;
-            if (_mouseDown.Collider.TryGetComponent<IClickable>(out IClickable clickedSprite)) clickedSprite.Click();
-        }
-
-        void ProcessDrag()
-        {
-            if (_mouseDown.Collider == null) return;
-            Vector2 clickedPositionOffset = _mouseDown.WorldPoint - _mouseDown.ColliderInitialPosition;
-            if (_mouseDown.Collider.TryGetComponent<IDraggable>(out IDraggable dragged)) dragged.Drag(_currentPoint, clickedPositionOffset);
-        }
-
-        void ProcessRelease()
-        {
-            if (_mouseDown.Collider == null) return;
-
-            Collider2D releaseCollider = GetColliderUnderCollider();
-            if (releaseCollider == null) releaseCollider = _mouseDown.Collider;
-            if (_mouseDown.Collider.TryGetComponent<IDraggable>(out IDraggable dragged)) dragged.Release(releaseCollider);
-        }
-        void FixPotentialStuckCollider()
-        {
-            Collider2D potentialStuckCollider =  Physics2D.OverlapPoint(_currentPoint, 8);
-            if (potentialStuckCollider == null) return;
-            if (potentialStuckCollider.TryGetComponent(out IDraggable dragged)) dragged.Release(potentialStuckCollider);
-        }
+        void SetCurrentMouseWorldPosition() => 
+            _currentMouseWorldPosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
         
+
+        void ProcessClick() => _mouseDown.Click(_currentMouseWorldPosition);
+        void ProcessDrag() => _mouseDown.DragTo(_currentMouseWorldPosition);
+        void ProcessRelease() => _mouseDown.Release();
+
         public void QuitGame()
         {
 #if UNITY_WEBGL
             return;
 #endif
-            
             Application.Quit();
         }
         

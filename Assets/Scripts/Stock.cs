@@ -10,44 +10,74 @@ namespace Solitaire
 
         public int DrawCount => drawCount;
         [SerializeField] int drawCount = 3;
-        
+
         [SerializeField] PlayingCard cardPrefab;
         [SerializeField] float cardDealSpeed = 0.05f;
-        
+
         WasteStack _wasteStack;
         StockSounds _stockSounds;
         bool _dealInProgress;
         public static event Action OnNewGameDeal;
         public event Action OnDeckChanged;
+
         void Awake()
         {
             Deck = new Deck();
             _wasteStack = FindObjectOfType<WasteStack>();
             _stockSounds = GetComponent<StockSounds>();
         }
+
         void Start() => DealNewGame();
+
+        public void DealNewGame()
+        {
+            if (_dealInProgress) return;
+            Deck = new Deck();
+
+            OnNewGameDeal?.Invoke();
+
+            StartCoroutine(DealCardsToTableau());
+        }
+
         public void Click()
         {
             int numberOfCardsToDraw = GetNumberOfCardsToDraw();
 
-            if (numberOfCardsToDraw == 0)
-            {
-                RecycleWaste();
-                return;
-            }
-
-            PlayingCard[] cards = DealCardsToWaste(numberOfCardsToDraw);
-            _wasteStack.RevealCards(cards);
+            if (numberOfCardsToDraw == 0) RecycleWaste();
+            else DealCardsToWaste(numberOfCardsToDraw);
         }
 
-        PlayingCard[] DealCardsToWaste(int cardsToDraw)
+        IEnumerator DealCardsToTableau()
         {
+            _dealInProgress = true;
+
+            for (int i = 0; i < 7; i++)
+            {
+                for (int j = i; j < 7; j++)
+                {
+                    StackTransferRequest stackTransferRequest =
+                        new StackTransferRequest(DrawAndSetNewPlayingCard(i == j), TableauStack.Tableaux[j], true);
+                    stackTransferRequest.Process();
+                    yield return new WaitForSeconds(cardDealSpeed);
+                }
+            }
+
+            _dealInProgress = false;
+        }
+
+        void DealCardsToWaste(int cardsToDraw)
+        {
+            _wasteStack.ResetRevealedCards();
+
             PlayingCard[] cards = new PlayingCard[cardsToDraw];
             for (int i = 0; i < cardsToDraw; i++)
             {
                 cards[i] = DrawAndSetNewPlayingCard(true);
+                _wasteStack.AddToRevealedCards(cards[i]);
+
+                StackTransferRequest stackTransferRequest = new StackTransferRequest(cards[i], _wasteStack, true);
+                stackTransferRequest.Process();
             }
-            return cards;
         }
 
         int GetNumberOfCardsToDraw()
@@ -62,32 +92,6 @@ namespace Solitaire
             Deck = new Deck(_wasteStack.GetRecycledStock());
             OnDeckChanged?.Invoke();
         }
-        
-        public void DealNewGame()
-        {
-            if (_dealInProgress) return;
-            Deck = new Deck();
-            
-            OnNewGameDeal?.Invoke();
-            _stockSounds.PlayDealSound();
-
-            StartCoroutine(DealCardsToTableau());
-        }
-        IEnumerator DealCardsToTableau()
-        {
-            _dealInProgress = true;
-
-            for (int i = 0; i < 7; i++)
-            {
-                for (int j = i; j < 7; j++)
-                {
-                    TableauStack.Tableaux[j].AddCard(DrawAndSetNewPlayingCard(i == j));
-                    yield return new WaitForSeconds(cardDealSpeed);
-                }
-            }
-
-            _dealInProgress = false;
-        }
 
         PlayingCard DrawAndSetNewPlayingCard(bool turnFaceUp)
         {
@@ -97,6 +101,7 @@ namespace Solitaire
             if (turnFaceUp) newCard.Click();
             return newCard;
         }
+
         CardInfo DrawCard()
         {
             CardInfo nextCard = Deck.DrawCard();

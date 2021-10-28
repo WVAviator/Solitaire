@@ -56,12 +56,12 @@ namespace Solitaire
 
         void OrientEffectsToSuit(List<FoundationStack> foundationStacks)
         {
-            foreach (FoundationStack f in foundationStacks)
+            foreach (FoundationStack foundation in foundationStacks)
             {
-                if (f.GetFoundationSuit() == 0) hearts.transform.position = f.transform.position;
-                if (f.GetFoundationSuit() == 1) diamonds.transform.position = f.transform.position;
-                if (f.GetFoundationSuit() == 2) clubs.transform.position = f.transform.position;
-                if (f.GetFoundationSuit() == 3) spades.transform.position = f.transform.position;
+                if (foundation.GetFoundationSuit() == 0) hearts.transform.position = foundation.transform.position;
+                if (foundation.GetFoundationSuit() == 1) diamonds.transform.position = foundation.transform.position;
+                if (foundation.GetFoundationSuit() == 2) clubs.transform.position = foundation.transform.position;
+                if (foundation.GetFoundationSuit() == 3) spades.transform.position = foundation.transform.position;
             }
         }
     }
