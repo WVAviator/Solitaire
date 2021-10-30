@@ -19,12 +19,18 @@ namespace Solitaire
         void OnEnable()
         {
             CardAnimation.OnCardAnimationBegins += DisableInput;
+            Settings.OnSettingsPanelOpened += DisableInput;
+            
             CardAnimation.OnCardAnimationEnds += EnableInput;
+            Settings.OnSettingsPanelClosed += EnableInput;
         }
         void OnDisable()
         {
             CardAnimation.OnCardAnimationBegins -= DisableInput;
+            Settings.OnSettingsPanelOpened -= DisableInput;
+            
             CardAnimation.OnCardAnimationEnds -= EnableInput;
+            Settings.OnSettingsPanelClosed -= EnableInput;
         }
 
         void DisableInput() => _inputAllowed = false;
@@ -61,13 +67,5 @@ namespace Solitaire
         void ProcessDrag() => _mouseDown.DragTo(_currentMouseWorldPosition);
         void ProcessRelease() => _mouseDown.Release();
 
-        public void QuitGame()
-        {
-#if UNITY_WEBGL
-            return;
-#endif
-            Application.Quit();
-        }
-        
     }
 }

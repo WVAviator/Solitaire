@@ -9,8 +9,8 @@ namespace Solitaire
     {
         public Deck Deck { get; private set; }
 
-        public int DrawCount => drawCount;
-        [SerializeField] int drawCount = 3;
+        public int DrawCount => _drawCount;
+        int _drawCount = 3;
         [SerializeField] PlayingCard cardPrefab;
         [SerializeField] float cardDealSpeed = 0.05f;
 
@@ -23,9 +23,18 @@ namespace Solitaire
         {
             Deck = new Deck();
             _wasteStack = FindObjectOfType<WasteStack>();
+            
         }
 
+        void OnEnable() => Settings.OnSettingsUpdated += UpdateSettings;
+        void OnDisable() => Settings.OnSettingsUpdated -= UpdateSettings;
+
         void Start() => DealNewGame();
+
+        void UpdateSettings(Settings settings)
+        {
+            _drawCount = settings.DrawCount;
+        }
 
         public void DealNewGame()
         {
@@ -53,10 +62,6 @@ namespace Solitaire
             {
                 for (int j = i; j < 7; j++)
                 {
-                    // StackTransfer stackTransfer =
-                    //     new StackTransfer(DrawAndSetNewPlayingCard(i == j), TableauStack.Tableaux[j], true);
-                    // stackTransfer.Process();
-
                     PlayingCard card = DrawAndSetNewPlayingCard(i == j);
                     Stack tableauStack = TableauStack.Tableaux[j];
                     tableauStack.AddCard(card);
@@ -69,7 +74,7 @@ namespace Solitaire
             _dealInProgress = false;
         }
 
-        public void DealCardsToWaste(int cardsToDraw)
+        void DealCardsToWaste(int cardsToDraw)
         {
             PlayingCard[] cards = GetCards(cardsToDraw);
             WasteDeal wasteDeal = new WasteDeal(this, _wasteStack, cards);
@@ -103,8 +108,8 @@ namespace Solitaire
 
         int GetNumberOfCardsToDraw()
         {
-            int drawAmount = drawCount;
-            if (Deck.CardsRemaining() < drawCount) drawAmount = Deck.CardsRemaining();
+            int drawAmount = _drawCount;
+            if (Deck.CardsRemaining() < _drawCount) drawAmount = Deck.CardsRemaining();
             return drawAmount;
         }
 
