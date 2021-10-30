@@ -46,5 +46,7 @@ namespace Solitaire
         }
 
         bool IsCloseEnough() => (transform.position - _targetPosition).sqrMagnitude < 0.001f;
+
+        void OnDisable() => OnCardAnimationEnds?.Invoke();
     }
 }

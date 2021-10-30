@@ -5,7 +5,7 @@ namespace Solitaire
 {
     public abstract class Stack : MonoBehaviour
     {
-        protected readonly List<PlayingCard> PlayingCardsInStack = new List<PlayingCard>();
+        public List<PlayingCard> PlayingCardsInStack = new List<PlayingCard>();
         [SerializeField] protected float CardSpacing = 0.35f;
 
         protected virtual void OnEnable() => Stock.OnNewGameDeal += Clear;
@@ -42,7 +42,7 @@ namespace Solitaire
             return parent;
         }
 
-        protected virtual void AddCard(PlayingCard card) => PlayingCardsInStack.Add(card);
+        public virtual void AddCard(PlayingCard card) => PlayingCardsInStack.Add(card);
         protected float ZPositionWithLayering(int spacedBy) => -0.01f * spacedBy;
         protected float YPositionWithSpacing(int spacedBy) => transform.position.y - CardSpacing * spacedBy;
 
@@ -52,7 +52,7 @@ namespace Solitaire
             PlayingCardsInStack.Clear();
         }
 
-        void RemoveCard(PlayingCard card)
+        public void RemoveCard(PlayingCard card)
         {
             foreach (PlayingCard c in card.GetComponentsInChildren<PlayingCard>()) PlayingCardsInStack.Remove(c);
             PlayingCardsInStack.Remove(card);

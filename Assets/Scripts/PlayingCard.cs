@@ -33,8 +33,14 @@ namespace Solitaire
             MoveToPosition(CurrentStack.GetPosition(this), HasChildren());
         }
 
-        public void Click() => _cardVisuals.TurnFaceUp();
+        public void Click()
+        {
+            CardFlip flip = new CardFlip(_cardVisuals);
+            flip.Process();
+        }
 
+        public void FlipNoUndo() => _cardVisuals.TurnFaceUp();
+        
         public void Drag(Vector2 updatedPosition, Vector2 clickedPositionOffset)
         {
             if (!_cardVisuals.IsFlipped) return;
@@ -50,10 +56,10 @@ namespace Solitaire
             _isBeingDragged = false;
             SetLayer(0);
 
-            StackTransferRequest stackTransferRequest = new StackTransferRequest(this, colliderReleasedOn);
-            if (stackTransferRequest.IsApproved)
+            StackTransfer stackTransfer = new StackTransfer(this, colliderReleasedOn);
+            if (stackTransfer.IsApproved)
             {
-                stackTransferRequest.Process();
+                stackTransfer.Process();
                 OnCardPlaced?.Invoke();
             }
             else ResetPosition();

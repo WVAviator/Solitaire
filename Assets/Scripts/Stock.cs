@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Solitaire
@@ -55,9 +56,15 @@ namespace Solitaire
             {
                 for (int j = i; j < 7; j++)
                 {
-                    StackTransferRequest stackTransferRequest =
-                        new StackTransferRequest(DrawAndSetNewPlayingCard(i == j), TableauStack.Tableaux[j], true);
-                    stackTransferRequest.Process();
+                    // StackTransfer stackTransfer =
+                    //     new StackTransfer(DrawAndSetNewPlayingCard(i == j), TableauStack.Tableaux[j], true);
+                    // stackTransfer.Process();
+
+                    PlayingCard card = DrawAndSetNewPlayingCard(i == j);
+                    Stack tableauStack = TableauStack.Tableaux[j];
+                    tableauStack.AddCard(card);
+                    card.UpdateCurrentStack(tableauStack);
+                    
                     yield return new WaitForSeconds(cardDealSpeed);
                 }
             }
@@ -65,19 +72,36 @@ namespace Solitaire
             _dealInProgress = false;
         }
 
-        void DealCardsToWaste(int cardsToDraw)
+        public void DealCardsToWaste(int cardsToDraw)
         {
-            _wasteStack.ResetRevealedCards();
+            PlayingCard[] cards = GetCards(cardsToDraw);
+            WasteDeal wasteDeal = new WasteDeal(this, _wasteStack, cards);
+            wasteDeal.Process();
+        }
 
-            PlayingCard[] cards = new PlayingCard[cardsToDraw];
-            for (int i = 0; i < cardsToDraw; i++)
+        public void RestoreWaste()
+        {
+            int cardsToDraw = Deck.CardsRemaining();
+            PlayingCard[] cards = GetCards(cardsToDraw);
+            _wasteStack.PlayingCardsInStack = new List<PlayingCard>(cards);
+            OnDeckChanged?.Invoke();
+        }
+
+        PlayingCard[] GetCards(int cardsToGet)
+        {
+            PlayingCard[] cards = new PlayingCard[cardsToGet];
+            for (int i = 0; i < cardsToGet; i++)
             {
                 cards[i] = DrawAndSetNewPlayingCard(true);
-                _wasteStack.AddToRevealedCards(cards[i]);
-
-                StackTransferRequest stackTransferRequest = new StackTransferRequest(cards[i], _wasteStack, true);
-                stackTransferRequest.Process();
             }
+
+            return cards;
+        }
+
+        public void SetDeck(Deck deck)
+        {
+            Deck = deck;
+            OnDeckChanged?.Invoke();
         }
 
         int GetNumberOfCardsToDraw()
@@ -89,8 +113,8 @@ namespace Solitaire
 
         void RecycleWaste()
         {
-            Deck = new Deck(_wasteStack.GetRecycledStock());
-            OnDeckChanged?.Invoke();
+            WasteRecycle wasteRecycle = new WasteRecycle(this, _wasteStack);
+            wasteRecycle.Process();
         }
 
         PlayingCard DrawAndSetNewPlayingCard(bool turnFaceUp)
@@ -98,7 +122,7 @@ namespace Solitaire
             PlayingCard newCard =
                 Instantiate(cardPrefab, transform.position, Quaternion.identity);
             newCard.SetCard(DrawCard());
-            if (turnFaceUp) newCard.Click();
+            if (turnFaceUp) newCard.FlipNoUndo();
             return newCard;
         }
 
@@ -107,6 +131,12 @@ namespace Solitaire
             CardInfo nextCard = Deck.DrawCard();
             OnDeckChanged?.Invoke();
             return nextCard;
+        }
+
+        public void ReturnToDeck(PlayingCard card)
+        {
+            Deck.AddToStack(card.CardInfo);
+            Destroy(card.gameObject);
         }
     }
 }

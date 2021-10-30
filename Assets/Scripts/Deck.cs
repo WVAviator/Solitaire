@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Solitaire
 {
+    [Serializable]
     public class Deck
     {
         readonly Stack<CardInfo> _cardStack;
@@ -28,6 +30,8 @@ namespace Solitaire
         }
 
         public int CardsRemaining() => _cardStack.Count;
+
+        public void AddToStack(CardInfo card) => _cardStack.Push(card);
 
         static List<CardInfo> BuildNewDeck()
         {

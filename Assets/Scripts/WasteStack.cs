@@ -1,19 +1,35 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Solitaire
 {
     public class WasteStack : Stack
     {
-        List<PlayingCard> _reveal = new List<PlayingCard>();
+        public List<PlayingCard> Reveal { get; } = new List<PlayingCard>();
 
         public void ResetRevealedCards()
         {
-            _reveal.Clear();
+            Reveal.Clear();
             ReorganizeExistingCards();
         }
 
-        public void AddToRevealedCards(PlayingCard card) => _reveal.Add(card);
+        public int NumberOfRevealedCards() => Reveal.Where(c => PlayingCardsInStack.Contains(c)).ToList().Count;
+
+        public void ResortReveal(int numberOfCards)
+        {
+            Reveal.Clear();
+            
+            for (int i = numberOfCards; i > 0; i--)
+            {
+                PlayingCard card = PlayingCardsInStack[PlayingCardsInStack.Count - i];
+                AddToRevealedCards(card);
+            }
+            
+            foreach (PlayingCard card in PlayingCardsInStack) card.UpdateCurrentStack(this);
+        }
+
+        public void AddToRevealedCards(PlayingCard card) => Reveal.Add(card);
 
         public override Vector3 GetPosition(PlayingCard card)
         {
@@ -21,7 +37,7 @@ namespace Solitaire
             
             targetPosition.x = transform.position.x;
             targetPosition.y = 
-                IsInReveal(card) ? YPositionWithSpacing( _reveal.IndexOf(card)) : transform.position.y;
+                IsInReveal(card) ? YPositionWithSpacing( Reveal.IndexOf(card)) : transform.position.y;
             targetPosition.z = ZPositionWithLayering(PlayingCardsInStack.IndexOf(card));
 
             return targetPosition;
@@ -39,7 +55,7 @@ namespace Solitaire
             return newStack;
         }
 
-        bool IsInReveal(PlayingCard card) => _reveal.Contains(card);
+        bool IsInReveal(PlayingCard card) => Reveal.Contains(card);
 
         void ReorganizeExistingCards()
         {
