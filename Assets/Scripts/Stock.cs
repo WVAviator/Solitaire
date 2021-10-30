@@ -8,9 +8,11 @@ namespace Solitaire
     public class Stock : MonoBehaviour, IClickable
     {
         public Deck Deck { get; private set; }
+        int _stockPasses = int.MaxValue;
+        public int DrawCount { get; private set; } = 3;
 
-        public int DrawCount => _drawCount;
-        int _drawCount = 3;
+        public int StockPassesRemaining { get; set; }
+
         [SerializeField] PlayingCard cardPrefab;
         [SerializeField] float cardDealSpeed = 0.05f;
 
@@ -33,13 +35,16 @@ namespace Solitaire
 
         void UpdateSettings(Settings settings)
         {
-            _drawCount = settings.DrawCount;
+            DrawCount = settings.DrawCount;
+            _stockPasses = settings.StockPasses;
         }
 
         public void DealNewGame()
         {
             if (_dealInProgress) return;
             Deck = new Deck();
+            
+            StockPassesRemaining = _stockPasses;
 
             OnNewGameDeal?.Invoke();
 
@@ -108,13 +113,15 @@ namespace Solitaire
 
         int GetNumberOfCardsToDraw()
         {
-            int drawAmount = _drawCount;
-            if (Deck.CardsRemaining() < _drawCount) drawAmount = Deck.CardsRemaining();
+            int drawAmount = DrawCount;
+            if (Deck.CardsRemaining() < DrawCount) drawAmount = Deck.CardsRemaining();
             return drawAmount;
         }
 
         void RecycleWaste()
         {
+            if (StockPassesRemaining <= 0) return;
+            
             WasteRecycle wasteRecycle = new WasteRecycle(this, _wasteStack);
             wasteRecycle.Process();
         }

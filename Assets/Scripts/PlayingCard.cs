@@ -35,6 +35,7 @@ namespace Solitaire
 
         public void Click()
         {
+            if (_cardVisuals.IsFlipped) return;
             CardFlip flip = new CardFlip(_cardVisuals);
             flip.Process();
         }

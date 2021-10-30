@@ -17764,7 +17764,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1114912425}
   m_OnClick:
     m_PersistentCalls:
@@ -18266,6 +18266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c8af360e9554a1cb093eb81d622cb08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _undoButton: {fileID: 1114912424}
 --- !u!4 &1181593364
 Transform:
   m_ObjectHideFlags: 0
@@ -19258,7 +19259,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &1593328481
 GameObject:
   m_ObjectHideFlags: 0
@@ -19566,6 +19567,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minimumDragDistance: 10
+  _settingsPanel: {fileID: 6849600}
 --- !u!4 &1674413538
 Transform:
   m_ObjectHideFlags: 0

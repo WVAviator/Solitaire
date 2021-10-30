@@ -22,6 +22,8 @@ namespace Solitaire
         {
             Deck deck = new Deck(_wasteStack.GetRecycledStock());
             _stock.SetDeck(deck);
+
+            _stock.StockPassesRemaining--;
             
             base.Process();
         }
@@ -31,6 +33,8 @@ namespace Solitaire
         {
             _stock.RestoreWaste();
             _wasteStack.ResortReveal(_priorRevealCount);
+
+            _stock.StockPassesRemaining++;
         }
     }
 }

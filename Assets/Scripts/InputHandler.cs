@@ -6,6 +6,7 @@ namespace Solitaire
     public class InputHandler : MonoBehaviour
     {
         [SerializeField] float minimumDragDistance = 10;
+        [SerializeField] GameObject _settingsPanel;
 
         bool _inputAllowed = true;
 
@@ -19,18 +20,12 @@ namespace Solitaire
         void OnEnable()
         {
             CardAnimation.OnCardAnimationBegins += DisableInput;
-            Settings.OnSettingsPanelOpened += DisableInput;
-            
             CardAnimation.OnCardAnimationEnds += EnableInput;
-            Settings.OnSettingsPanelClosed += EnableInput;
         }
         void OnDisable()
         {
             CardAnimation.OnCardAnimationBegins -= DisableInput;
-            Settings.OnSettingsPanelOpened -= DisableInput;
-            
             CardAnimation.OnCardAnimationEnds -= EnableInput;
-            Settings.OnSettingsPanelClosed -= EnableInput;
         }
 
         void DisableInput() => _inputAllowed = false;
@@ -38,7 +33,7 @@ namespace Solitaire
 
         void Update()
         {
-            if (!_inputAllowed) return;
+            if (!_inputAllowed || _settingsPanel.activeSelf) return;
             
             SetCurrentMouseWorldPosition();
 

@@ -8,9 +8,6 @@ namespace Solitaire
     public class Settings : MonoBehaviour
     {
         [SerializeField] GameObject _settingsPanel;
-
-        public static event Action OnSettingsPanelOpened;
-        public static event Action OnSettingsPanelClosed;
         public static event Action<Settings> OnSettingsUpdated;
         
         public int DrawCount { get; private set; } = 3;
@@ -23,24 +20,15 @@ namespace Solitaire
         [SerializeField] Slider _passesSlider;
         [SerializeField] Toggle _undoToggle;
 
-        public void OpenSettingsPanel()
-        {
-            _settingsPanel.SetActive(true);
-            OnSettingsPanelOpened?.Invoke();
-        }
-
-        public void CloseSettingsPanel()
-        {
-            _settingsPanel.SetActive(false);
-            OnSettingsPanelClosed?.Invoke();
-        }
+        public void OpenSettingsPanel() => _settingsPanel.SetActive(true);
+        public void CloseSettingsPanel() => _settingsPanel.SetActive(false);
 
         public void ApplySettings()
         {
             DrawCount = Mathf.RoundToInt(_drawAmountSlider.value);
-            InfiniteStockPasses = _infinitePassesToggle;
-            StockPasses = InfiniteStockPasses ? int.MaxValue : Mathf.RoundToInt(_passesSlider.value);
-            UndoAllowed = _undoToggle;
+            InfiniteStockPasses = _infinitePassesToggle.isOn;
+            StockPasses = InfiniteStockPasses ? int.MaxValue : Mathf.RoundToInt(_passesSlider.value) - 1;
+            UndoAllowed = _undoToggle.isOn;
             
             OnSettingsUpdated?.Invoke(this);
             CloseSettingsPanel();
