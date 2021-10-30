@@ -13,19 +13,25 @@ namespace Solitaire
         {
             CardAction.OnCardActionPerformed += AddAction;
             Stock.OnNewGameDeal += ClearHistory;
+            FoundationStack.OnAllFoundationsComplete += ClearHistory;
         }
+
         void OnDisable()
         {
             CardAction.OnCardActionPerformed -= AddAction;
             Stock.OnNewGameDeal -= ClearHistory;
         }
-        void AddAction(CardAction action) => _actions.Push(action);
-        void ClearHistory() => _actions.Clear();
 
         public void UndoAction()
         {
             if (_actions.Count == 0) return;
             _actions.Pop().Undo();
         }
+
+        void AddAction(CardAction action) => _actions.Push(action);
+
+        void ClearHistory(List<FoundationStack> foundations) => ClearHistory();
+
+        void ClearHistory() => _actions.Clear();
     }
 }

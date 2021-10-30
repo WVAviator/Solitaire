@@ -9,10 +9,10 @@ namespace Solitaire
         Stock _stock;
         WasteStack _wasteStack;
         PlayingCard[] _cards;
-
-
+        
         int _numberOfCardsToDraw;
         int _priorRevealCount;
+        
         public WasteDeal(Stock stock, WasteStack wasteStack, PlayingCard[] cards)
         {
             _stock = stock;

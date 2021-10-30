@@ -11,12 +11,10 @@ namespace Solitaire
 
         public int DrawCount => drawCount;
         [SerializeField] int drawCount = 3;
-
         [SerializeField] PlayingCard cardPrefab;
         [SerializeField] float cardDealSpeed = 0.05f;
 
         WasteStack _wasteStack;
-        StockSounds _stockSounds;
         bool _dealInProgress;
         public static event Action OnNewGameDeal;
         public event Action OnDeckChanged;
@@ -25,7 +23,6 @@ namespace Solitaire
         {
             Deck = new Deck();
             _wasteStack = FindObjectOfType<WasteStack>();
-            _stockSounds = GetComponent<StockSounds>();
         }
 
         void Start() => DealNewGame();
@@ -137,6 +134,7 @@ namespace Solitaire
         {
             Deck.AddToStack(card.CardInfo);
             Destroy(card.gameObject);
+            OnDeckChanged?.Invoke();
         }
     }
 }
