@@ -20,12 +20,16 @@ namespace Solitaire
 
         public override void Process()
         {
-            Deck deck = new Deck(_wasteStack.GetRecycledStock());
-            _stock.SetDeck(deck);
-
+            RecycleReveal();
             _stock.StockPassesRemaining--;
             
             base.Process();
+        }
+
+        void RecycleReveal()
+        {
+            Deck deck = new Deck(_wasteStack.GetRecycledStock());
+            _stock.SetDeck(deck);
         }
 
 

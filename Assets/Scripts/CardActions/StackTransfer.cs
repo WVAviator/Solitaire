@@ -19,6 +19,11 @@ namespace Solitaire
             _newStack = GetStackFromCollider(releasedCollider);
             IsApproved = CanBeAddedToStack();
             
+            ManageWasteReveal();
+        }
+
+        void ManageWasteReveal()
+        {
             if (!(_oldStack is WasteStack stack)) return;
             _revealedIndex = stack.Reveal.IndexOf(_card);
             if (_revealedIndex < 0) _revealedIndex = 0;
@@ -47,14 +52,19 @@ namespace Solitaire
             if (_isProcessed == false) return;
             
             _oldStack.Transfer(_card, _card.CurrentStack);
-            if (_oldStack is WasteStack stack)
-            {
-                if (stack.Reveal.Count <= _revealedIndex) stack.AddToRevealedCards(_card);
-                else stack.Reveal[_revealedIndex] = _card;
-            }
+            
+            SendBackToWasteReveal();
+            
             _card.UpdateCurrentStack(_oldStack);
 
             _isProcessed = false;
+        }
+
+        void SendBackToWasteReveal()
+        {
+            if (!(_oldStack is WasteStack stack)) return;
+            if (stack.Reveal.Count <= _revealedIndex) stack.AddToRevealedCards(_card);
+            else stack.Reveal[_revealedIndex] = _card;
         }
     }
 }

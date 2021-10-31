@@ -27,17 +27,28 @@ namespace Solitaire
         {
             _wasteStack.ResetRevealedCards();
 
+            DealAndUpdateCards();
+            
+            base.Process();
+        }
+
+        void DealAndUpdateCards()
+        {
             foreach (PlayingCard card in _cards)
             {
                 _wasteStack.AddToRevealedCards(card);
                 _wasteStack.AddCard(card);
                 card.UpdateCurrentStack(_wasteStack);
             }
-            
-            base.Process();
         }
 
         public override void Undo()
+        {
+            RemoveAndReturnCardsToStock();
+            _wasteStack.RevealLastInStack(_priorRevealCount);
+        }
+
+        void RemoveAndReturnCardsToStock()
         {
             for (int i = 0; i < _numberOfCardsToDraw; i++)
             {
@@ -45,8 +56,6 @@ namespace Solitaire
                 _wasteStack.RemoveCard(card);
                 _stock.ReturnToDeck(card);
             }
-
-            _wasteStack.RevealLastInStack(_priorRevealCount);
         }
     }
 }

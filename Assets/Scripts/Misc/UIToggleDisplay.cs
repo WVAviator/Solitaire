@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Solitaire
 {
-    public class UIToggleInfinite : MonoBehaviour
+    public class UIToggleDisplay : MonoBehaviour
     {
 
         [SerializeField] Text _infiniteText;
@@ -17,7 +17,7 @@ namespace Solitaire
         public void UpdateDisplay(bool value)
         {
             if (_toggle.isOn) _infiniteText.text = "∞";
-            if (!_toggle.isOn) _infiniteText.text = _slider.value.ToString();
+            else _infiniteText.text = _slider.value.ToString();
         }
     }
 }
