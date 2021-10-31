@@ -20,7 +20,7 @@ namespace Solitaire
             _cards = cards;
 
             _numberOfCardsToDraw = cards.Length;
-            _priorRevealCount = _wasteStack.NumberOfRevealedCards();
+            _priorRevealCount = _wasteStack.RevealedCardsStillInStack();
         }
         
         public override void Process()
@@ -41,12 +41,12 @@ namespace Solitaire
         {
             for (int i = 0; i < _numberOfCardsToDraw; i++)
             {
-                PlayingCard card = _wasteStack.PlayingCardsInStack.Last();
+                PlayingCard card = _wasteStack.CardStack.Last();
                 _wasteStack.RemoveCard(card);
                 _stock.ReturnToDeck(card);
             }
 
-            _wasteStack.ResortReveal(_priorRevealCount);
+            _wasteStack.RevealLastInStack(_priorRevealCount);
         }
     }
 }

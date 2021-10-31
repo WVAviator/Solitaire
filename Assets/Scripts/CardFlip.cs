@@ -14,6 +14,6 @@
             
             base.Process();
         }
-        public override void Undo() => _cardVisuals.UndoFlip();
+        public override void Undo() => _cardVisuals.TurnFaceDown();
     }
 }

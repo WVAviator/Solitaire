@@ -31,7 +31,7 @@ namespace Solitaire
 
         public int CardsRemaining() => _cardStack.Count;
 
-        public void AddToStack(CardInfo card) => _cardStack.Push(card);
+        public void AddToDeck(CardInfo card) => _cardStack.Push(card);
 
         static List<CardInfo> BuildNewDeck()
         {

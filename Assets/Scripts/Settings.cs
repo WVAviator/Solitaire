@@ -12,7 +12,7 @@ namespace Solitaire
         
         public int DrawCount { get; private set; } = 3;
         public int StockPasses { get; private set;} = 3;
-        public bool InfiniteStockPasses { get;private set; } = true;
+        public bool InfiniteStockPasses { get; private set; } = true;
         public bool UndoAllowed { get; private set;} = false;
 
         [SerializeField] Slider _drawAmountSlider;

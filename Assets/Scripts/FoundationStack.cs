@@ -10,12 +10,10 @@ namespace Solitaire
 
         static readonly List<FoundationStack> Foundations = new List<FoundationStack>();
 
-        public override bool CanAddCard(PlayingCard card)
-        {
-            return PlayingCardsInStack.Count == 0 ? IsAce(card) : IsSequentialSameSuit(card);
-        }
+        public override bool CanAddCard(PlayingCard card) => 
+            CardStack.Count == 0 ? IsAce(card) : IsSequentialSameSuit(card);
 
-        public int GetFoundationSuit() => PlayingCardsInStack[0].CardInfo.Suit;
+        public int GetFoundationSuit() => CardStack[0].CardInfo.Suit;
 
         protected override void OnEnable()
         {
@@ -45,10 +43,10 @@ namespace Solitaire
 
         bool IsSequentialSameSuit(PlayingCard card)
         {
-            return card.CardInfo.Suit == PlayingCardsInStack.Last().CardInfo.Suit &&
-                   card.CardInfo.Rank == PlayingCardsInStack.Last().CardInfo.Rank + 1;
+            return card.CardInfo.Suit == CardStack.Last().CardInfo.Suit &&
+                   card.CardInfo.Rank == CardStack.Last().CardInfo.Rank + 1;
         }
 
-        bool IsComplete() => PlayingCardsInStack.Count == 13;
+        bool IsComplete() => CardStack.Count == 13;
     }
 }

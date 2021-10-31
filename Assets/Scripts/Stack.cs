@@ -5,7 +5,8 @@ namespace Solitaire
 {
     public abstract class Stack : MonoBehaviour
     {
-        public List<PlayingCard> PlayingCardsInStack = new List<PlayingCard>();
+        public List<PlayingCard> CardStack = new List<PlayingCard>();
+        
         [SerializeField] protected float CardSpacing = 0.35f;
 
         protected virtual void OnEnable() => Stock.OnNewGameDeal += Clear;
@@ -21,7 +22,7 @@ namespace Solitaire
 
         public virtual Vector3 GetPosition(PlayingCard card)
         {
-            int cardIndex = PlayingCardsInStack.IndexOf(card);
+            int cardIndex = CardStack.IndexOf(card);
 
             Vector3 cardPosition;
 
@@ -36,26 +37,25 @@ namespace Solitaire
         {
             Transform parent = null;
 
-            int cardIndex = PlayingCardsInStack.IndexOf(card);
-            if (cardIndex > 0) parent = PlayingCardsInStack[cardIndex - 1].transform;
+            int cardIndex = CardStack.IndexOf(card);
+            if (cardIndex > 0) parent = CardStack[cardIndex - 1].transform;
 
             return parent;
         }
 
-        public virtual void AddCard(PlayingCard card) => PlayingCardsInStack.Add(card);
+        public virtual void AddCard(PlayingCard card) => CardStack.Add(card);
         protected float ZPositionWithLayering(int spacedBy) => -0.01f * spacedBy;
         protected float YPositionWithSpacing(int spacedBy) => transform.position.y - CardSpacing * spacedBy;
 
         protected void Clear()
         {
-            foreach (PlayingCard pc in PlayingCardsInStack) Destroy(pc.gameObject);
-            PlayingCardsInStack.Clear();
+            foreach (PlayingCard pc in CardStack) Destroy(pc.gameObject);
+            CardStack.Clear();
         }
 
         public void RemoveCard(PlayingCard card)
         {
-            foreach (PlayingCard c in card.GetComponentsInChildren<PlayingCard>()) PlayingCardsInStack.Remove(c);
-            PlayingCardsInStack.Remove(card);
+            foreach (PlayingCard c in card.GetComponentsInChildren<PlayingCard>()) CardStack.Remove(c);
         }
     }
 }

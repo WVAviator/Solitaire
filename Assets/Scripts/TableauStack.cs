@@ -27,7 +27,7 @@ namespace Solitaire
 
             if (EmptyStack()) return IsKing(card);
 
-            PlayingCard lastCard = PlayingCardsInStack.Last();
+            PlayingCard lastCard = CardStack.Last();
 
             return IsSequentialAlternatingColor(rank, color, lastCard);
         }
@@ -45,7 +45,7 @@ namespace Solitaire
         }
 
         static bool IsKing(PlayingCard card) => card.CardInfo.Rank == 12;
-        bool EmptyStack() => PlayingCardsInStack.Count == 0;
+        bool EmptyStack() => CardStack.Count == 0;
         bool IsSequentialAlternatingColor(int rank, int color, PlayingCard lastCard)
         {
             return rank == lastCard.CardInfo.Rank - 1 && color != lastCard.CardInfo.Color;

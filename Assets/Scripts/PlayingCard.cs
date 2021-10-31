@@ -17,13 +17,14 @@ namespace Solitaire
         public event Action OnCardPicked;
         public event Action OnCardPlaced;
 
-        public void SetCard(CardInfo c)
+        public void SetCard(CardInfo c, bool flipOnLoad = false)
         {
             CardInfo = c;
             _cardAnimation = GetComponent<CardAnimation>();
 
             _cardVisuals = gameObject.AddComponent<CardVisuals>();
             _cardVisuals.SetFaceUpSprite(CardInfo);
+            if (flipOnLoad) _cardVisuals.TurnFaceUp();
         }
 
         public void UpdateCurrentStack(Stack stack)
@@ -35,13 +36,10 @@ namespace Solitaire
 
         public void Click()
         {
-            if (_cardVisuals.IsFlipped) return;
+            if (_cardVisuals.IsFlipped || HasChildren()) return;
             CardFlip flip = new CardFlip(_cardVisuals);
             flip.Process();
         }
-
-        public void FlipNoUndo() => _cardVisuals.TurnFaceUp();
-        
         public void Drag(Vector2 updatedPosition, Vector2 clickedPositionOffset)
         {
             if (!_cardVisuals.IsFlipped) return;

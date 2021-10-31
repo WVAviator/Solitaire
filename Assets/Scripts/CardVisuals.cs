@@ -10,9 +10,8 @@ namespace Solitaire
         public Sprite FaceUpSprite { get; private set; }
         public Sprite FaceDownSprite { get; private set; }
 
-        public bool IsFlipped => _isFlipped;
-        bool _isFlipped;
-        
+        public bool IsFlipped { get; private set; }
+
         public event Action OnCardFlipped;
 
         void Awake()
@@ -31,17 +30,14 @@ namespace Solitaire
 
         public void TurnFaceUp()
         {
-            if (transform.childCount != 0 || _isFlipped) return;
-            
-            _isFlipped = true;
+            IsFlipped = true;
             _spriteRenderer.sprite = FaceUpSprite;
             OnCardFlipped?.Invoke();
         }
 
-        public void UndoFlip()
+        public void TurnFaceDown()
         {
-            if (!_isFlipped) return;
-            _isFlipped = false;
+            IsFlipped = false;
             _spriteRenderer.sprite = FaceDownSprite;
         }
     }

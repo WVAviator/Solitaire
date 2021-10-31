@@ -15,7 +15,7 @@ namespace Solitaire
             _stock = stock;
             _wasteStack = wasteStack;
 
-            _priorRevealCount = _wasteStack.NumberOfRevealedCards();
+            _priorRevealCount = _wasteStack.RevealedCardsStillInStack();
         }
 
         public override void Process()
@@ -32,7 +32,7 @@ namespace Solitaire
         public override void Undo()
         {
             _stock.RestoreWaste();
-            _wasteStack.ResortReveal(_priorRevealCount);
+            _wasteStack.RevealLastInStack(_priorRevealCount);
 
             _stock.StockPassesRemaining++;
         }

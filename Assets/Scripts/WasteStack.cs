@@ -14,19 +14,19 @@ namespace Solitaire
             ReorganizeExistingCards();
         }
 
-        public int NumberOfRevealedCards() => Reveal.Where(c => PlayingCardsInStack.Contains(c)).ToList().Count;
+        public int RevealedCardsStillInStack() => Reveal.Where(c => CardStack.Contains(c)).ToList().Count;
 
-        public void ResortReveal(int numberOfCards)
+        public void RevealLastInStack(int numberOfCards)
         {
             Reveal.Clear();
             
             for (int i = numberOfCards; i > 0; i--)
             {
-                PlayingCard card = PlayingCardsInStack[PlayingCardsInStack.Count - i];
+                PlayingCard card = CardStack[CardStack.Count - i];
                 AddToRevealedCards(card);
             }
             
-            foreach (PlayingCard card in PlayingCardsInStack) card.UpdateCurrentStack(this);
+            ReorganizeExistingCards();
         }
 
         public void AddToRevealedCards(PlayingCard card) => Reveal.Add(card);
@@ -38,7 +38,7 @@ namespace Solitaire
             targetPosition.x = transform.position.x;
             targetPosition.y = 
                 IsInReveal(card) ? YPositionWithSpacing( Reveal.IndexOf(card)) : transform.position.y;
-            targetPosition.z = ZPositionWithLayering(PlayingCardsInStack.IndexOf(card));
+            targetPosition.z = ZPositionWithLayering(CardStack.IndexOf(card));
 
             return targetPosition;
         }
@@ -46,9 +46,9 @@ namespace Solitaire
         public Stack<CardInfo> GetRecycledStock()
         {
             Stack<CardInfo> newStack = new Stack<CardInfo>();
-            for (int i = PlayingCardsInStack.Count - 1; i >= 0; i--)
+            for (int i = CardStack.Count - 1; i >= 0; i--)
             {
-                newStack.Push(PlayingCardsInStack[i].CardInfo);
+                newStack.Push(CardStack[i].CardInfo);
             }
 
             Clear();
@@ -59,7 +59,7 @@ namespace Solitaire
 
         void ReorganizeExistingCards()
         {
-            foreach (PlayingCard card in PlayingCardsInStack) card.UpdateCurrentStack(this);
+            foreach (PlayingCard card in CardStack) card.UpdateCurrentStack(this);
         }
     }
 }

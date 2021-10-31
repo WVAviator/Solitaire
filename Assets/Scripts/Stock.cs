@@ -59,6 +59,27 @@ namespace Solitaire
             else DealCardsToWaste(numberOfCardsToDraw);
         }
 
+        public void RestoreWaste()
+        {
+            int cardsToDraw = Deck.CardsRemaining();
+            PlayingCard[] cards = GetCards(cardsToDraw);
+            _wasteStack.CardStack = new List<PlayingCard>(cards);
+            OnDeckChanged?.Invoke();
+        }
+
+        public void SetDeck(Deck deck)
+        {
+            Deck = deck;
+            OnDeckChanged?.Invoke();
+        }
+
+        public void ReturnToDeck(PlayingCard card)
+        {
+            Deck.AddToDeck(card.CardInfo);
+            Destroy(card.gameObject);
+            OnDeckChanged?.Invoke();
+        }
+
         IEnumerator DealCardsToTableau()
         {
             _dealInProgress = true;
@@ -86,14 +107,6 @@ namespace Solitaire
             wasteDeal.Process();
         }
 
-        public void RestoreWaste()
-        {
-            int cardsToDraw = Deck.CardsRemaining();
-            PlayingCard[] cards = GetCards(cardsToDraw);
-            _wasteStack.PlayingCardsInStack = new List<PlayingCard>(cards);
-            OnDeckChanged?.Invoke();
-        }
-
         PlayingCard[] GetCards(int cardsToGet)
         {
             PlayingCard[] cards = new PlayingCard[cardsToGet];
@@ -103,12 +116,6 @@ namespace Solitaire
             }
 
             return cards;
-        }
-
-        public void SetDeck(Deck deck)
-        {
-            Deck = deck;
-            OnDeckChanged?.Invoke();
         }
 
         int GetNumberOfCardsToDraw()
@@ -130,8 +137,7 @@ namespace Solitaire
         {
             PlayingCard newCard =
                 Instantiate(cardPrefab, transform.position, Quaternion.identity);
-            newCard.SetCard(DrawCard());
-            if (turnFaceUp) newCard.FlipNoUndo();
+            newCard.SetCard(DrawCard(), turnFaceUp);
             return newCard;
         }
 
@@ -140,13 +146,6 @@ namespace Solitaire
             CardInfo nextCard = Deck.DrawCard();
             OnDeckChanged?.Invoke();
             return nextCard;
-        }
-
-        public void ReturnToDeck(PlayingCard card)
-        {
-            Deck.AddToStack(card.CardInfo);
-            Destroy(card.gameObject);
-            OnDeckChanged?.Invoke();
         }
     }
 }

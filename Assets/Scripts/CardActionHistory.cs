@@ -20,7 +20,6 @@ namespace Solitaire
             FoundationStack.OnAllFoundationsComplete += ClearHistory;
             Settings.OnSettingsUpdated += UpdateSettings;
         }
-
         void OnDisable()
         {
             CardAction.OnCardActionPerformed -= AddAction;
@@ -28,6 +27,7 @@ namespace Solitaire
             FoundationStack.OnAllFoundationsComplete -= ClearHistory;
             Settings.OnSettingsUpdated -= UpdateSettings;
         }
+        
         void UpdateSettings(Settings settings) => _undoAllowed = settings.UndoAllowed;
 
         void UpdateButtonInteractable() => _undoButton.interactable = _undoAllowed && _actions.Count != 0;
