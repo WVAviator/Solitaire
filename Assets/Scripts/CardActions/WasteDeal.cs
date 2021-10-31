@@ -37,8 +37,7 @@ namespace Solitaire
             foreach (PlayingCard card in _cards)
             {
                 _wasteStack.AddToRevealedCards(card);
-                _wasteStack.AddCard(card);
-                card.UpdateCurrentStack(_wasteStack);
+                _wasteStack.Transfer(card, null);
             }
         }
 
@@ -53,7 +52,7 @@ namespace Solitaire
             for (int i = 0; i < _numberOfCardsToDraw; i++)
             {
                 PlayingCard card = _wasteStack.CardStack.Last();
-                _wasteStack.RemoveCard(card);
+                _wasteStack.Remove(card);
                 _stock.ReturnToDeck(card);
             }
         }

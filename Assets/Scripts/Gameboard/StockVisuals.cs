@@ -16,7 +16,7 @@ namespace Solitaire
         void OnEnable() => _stock.OnDeckChanged += UpdateStockSprite;
         void OnDisable() => _stock.OnDeckChanged -= UpdateStockSprite;
         
-        void UpdateStockSprite() => _spriteRenderer.enabled = _stock.Deck.CardsRemaining() != 0;
+        void UpdateStockSprite() => _spriteRenderer.enabled = _stock.Deck.CardsRemaining != 0;
 
 
     }

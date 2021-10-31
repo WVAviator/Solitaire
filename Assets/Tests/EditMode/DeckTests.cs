@@ -13,7 +13,7 @@ public class DeckTests
     public void CardsRemaining_NewDeck_Has52Cards()
     {
         Deck deck = new Deck();
-        Assert.AreEqual(52, deck.CardsRemaining());
+        Assert.AreEqual(52, deck.CardsRemaining);
     }
     
     [TestCase(1, 51)]
@@ -29,7 +29,7 @@ public class DeckTests
         {
             deck.DrawCard();
         }
-        Assert.AreEqual(expected, deck.CardsRemaining());
+        Assert.AreEqual(expected, deck.CardsRemaining);
     }
     
     [Test]

@@ -27,12 +27,7 @@ namespace Solitaire
             if (flipOnLoad) _cardVisuals.TurnFaceUp();
         }
 
-        public void UpdateCurrentStack(Stack stack)
-        {
-            CurrentStack = stack;
-            transform.SetParent(CurrentStack.GetParent(this));
-            MoveToPosition(CurrentStack.GetPosition(this), HasChildren());
-        }
+        public void UpdateCurrentStack(Stack stack) => CurrentStack = stack;
 
         public void Click()
         {
@@ -64,7 +59,7 @@ namespace Solitaire
             else ResetPosition();
         }
 
-        void MoveToPosition(Vector3 position, bool skipAnimation = false)
+        public void MoveToPosition(Vector3 position, bool skipAnimation = false)
         {
             if (skipAnimation) transform.position = position;
             else _cardAnimation.SetAnimationTargetPosition(position);

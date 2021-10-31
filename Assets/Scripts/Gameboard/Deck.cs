@@ -23,13 +23,13 @@ namespace Solitaire
 
         public CardInfo DrawCard()
         {
-            if (CardsRemaining() != 0) return _cardStack.Pop();
+            if (CardsRemaining != 0) return _cardStack.Pop();
             
             Debug.Log("Attempted to draw from an empty deck.");
             return new CardInfo(0, 0);
         }
 
-        public int CardsRemaining() => _cardStack.Count;
+        public int CardsRemaining => _cardStack.Count;
 
         public void AddToDeck(CardInfo card) => _cardStack.Push(card);
 

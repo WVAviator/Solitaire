@@ -27,9 +27,9 @@ namespace Solitaire
             base.OnDisable();
         }
 
-        public override void AddCard(PlayingCard card)
+        public override void Add(PlayingCard card)
         {
-            base.AddCard(card);
+            base.Add(card);
 
             if (!AllFoundationsComplete()) return;
 

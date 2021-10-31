@@ -17,7 +17,7 @@ namespace Solitaire
             _card = card;
             _oldStack = card.CurrentStack;
             _newStack = GetStackFromCollider(releasedCollider);
-            IsApproved = CanBeAddedToStack();
+            IsApproved = CanBeAddedToStack;
             
             ManageWasteReveal();
         }
@@ -34,12 +34,13 @@ namespace Solitaire
             if (!IsApproved || _isProcessed) return;
 
             _newStack.Transfer(_card, _card.CurrentStack);
-            _card.UpdateCurrentStack(_newStack);
 
             _isProcessed = true;
             base.Process();
         }
-        bool CanBeAddedToStack() => _newStack != null && _newStack.CanAddCard(_card);
+
+        bool CanBeAddedToStack => _newStack != null && _newStack.CanAddCard(_card);
+
         static Stack GetStackFromCollider(Collider2D colliderReleasedOn)
         {
             if (colliderReleasedOn.TryGetComponent(out Stack s)) return s;
@@ -51,11 +52,8 @@ namespace Solitaire
         {
             if (_isProcessed == false) return;
             
-            _oldStack.Transfer(_card, _card.CurrentStack);
-            
             SendBackToWasteReveal();
-            
-            _card.UpdateCurrentStack(_oldStack);
+            _oldStack.Transfer(_card, _card.CurrentStack);
 
             _isProcessed = false;
         }

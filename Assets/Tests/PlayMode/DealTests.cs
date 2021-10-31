@@ -23,7 +23,7 @@ namespace Tests.PlayMode
             yield return new WaitForSeconds(2);
 
             Stock stock = Object.FindObjectOfType<Stock>();
-            Assert.AreEqual(24, stock.Deck.CardsRemaining());
+            Assert.AreEqual(24, stock.Deck.CardsRemaining);
         }
 
         [UnityTest]

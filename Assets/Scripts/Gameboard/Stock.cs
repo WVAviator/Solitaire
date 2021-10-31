@@ -61,7 +61,7 @@ namespace Solitaire
 
         public void RestoreWaste()
         {
-            int cardsToDraw = Deck.CardsRemaining();
+            int cardsToDraw = Deck.CardsRemaining;
             PlayingCard[] cards = GetCards(cardsToDraw);
             _wasteStack.CardStack = new List<PlayingCard>(cards);
             OnDeckChanged?.Invoke();
@@ -90,9 +90,8 @@ namespace Solitaire
                 {
                     PlayingCard card = DrawAndSetNewPlayingCard(i == j);
                     Stack tableauStack = TableauStack.Tableaux[j];
-                    tableauStack.AddCard(card);
-                    card.UpdateCurrentStack(tableauStack);
-                    
+                    tableauStack.Transfer(card, null);
+
                     yield return new WaitForSeconds(cardDealSpeed);
                 }
             }
@@ -121,7 +120,7 @@ namespace Solitaire
         int GetNumberOfCardsToDraw()
         {
             int drawAmount = DrawCount;
-            if (Deck.CardsRemaining() < DrawCount) drawAmount = Deck.CardsRemaining();
+            if (Deck.CardsRemaining < DrawCount) drawAmount = Deck.CardsRemaining;
             return drawAmount;
         }
 

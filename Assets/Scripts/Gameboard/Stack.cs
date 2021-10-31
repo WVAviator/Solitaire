@@ -14,13 +14,18 @@ namespace Solitaire
 
         public void Transfer(PlayingCard card, Stack oldStack)
         {
-            AddCard(card);
-            if (oldStack != null) oldStack.RemoveCard(card);
+            card.UpdateCurrentStack(this);
+            
+            Add(card);
+            if (oldStack != null) oldStack.Remove(card);
+            
+            AssignPosition(card);
+            AssignParent(card);
         }
 
         public virtual bool CanAddCard(PlayingCard card) => false;
 
-        public virtual Vector3 GetPosition(PlayingCard card)
+        public virtual void AssignPosition(PlayingCard card)
         {
             int cardIndex = CardStack.IndexOf(card);
 
@@ -30,20 +35,20 @@ namespace Solitaire
             cardPosition.y = YPositionWithSpacing(cardIndex);
             cardPosition.z = ZPositionWithLayering(cardIndex);
 
-            return cardPosition;
+            card.MoveToPosition(cardPosition);
         }
 
-        public Transform GetParent(PlayingCard card)
+        public void AssignParent(PlayingCard card)
         {
             Transform parent = null;
 
             int cardIndex = CardStack.IndexOf(card);
             if (cardIndex > 0) parent = CardStack[cardIndex - 1].transform;
 
-            return parent;
+            card.transform.parent = parent;
         }
 
-        public virtual void AddCard(PlayingCard card) => CardStack.Add(card);
+        public virtual void Add(PlayingCard card) => CardStack.Add(card);
         protected float ZPositionWithLayering(int spacedBy) => -0.01f * spacedBy;
         protected float YPositionWithSpacing(int spacedBy) => transform.position.y - CardSpacing * spacedBy;
 
@@ -53,7 +58,7 @@ namespace Solitaire
             CardStack.Clear();
         }
 
-        public void RemoveCard(PlayingCard card)
+        public void Remove(PlayingCard card)
         {
             foreach (PlayingCard c in card.GetComponentsInChildren<PlayingCard>()) CardStack.Remove(c);
         }

@@ -32,15 +32,14 @@ namespace Solitaire
             return IsSequentialAlternatingColor(rank, color, lastCard);
         }
 
-        public override void AddCard(PlayingCard card)
+        public override void Add(PlayingCard card)
         {
             List<PlayingCard> allCards = new List<PlayingCard>( card.GetComponentsInChildren<PlayingCard>());
             allCards.OrderByDescending(c => c.CardInfo.Rank);
 
             foreach (PlayingCard c in allCards)
             {
-                base.AddCard(c);
-                c.UpdateCurrentStack(this);
+                base.Add(c);
             }
         }
 

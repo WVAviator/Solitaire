@@ -31,7 +31,7 @@ namespace Solitaire
 
         public void AddToRevealedCards(PlayingCard card) => Reveal.Add(card);
 
-        public override Vector3 GetPosition(PlayingCard card)
+        public override void AssignPosition(PlayingCard card)
         {
             Vector3 targetPosition;
             
@@ -40,7 +40,7 @@ namespace Solitaire
                 IsInReveal(card) ? YPositionWithSpacing( Reveal.IndexOf(card)) : transform.position.y;
             targetPosition.z = ZPositionWithLayering(CardStack.IndexOf(card));
 
-            return targetPosition;
+            card.MoveToPosition(targetPosition);
         }
 
         public Stack<CardInfo> GetRecycledStock()
@@ -59,7 +59,7 @@ namespace Solitaire
 
         void ReorganizeExistingCards()
         {
-            foreach (PlayingCard card in CardStack) card.UpdateCurrentStack(this);
+            foreach (PlayingCard card in CardStack) AssignPosition(card);
         }
     }
 }
