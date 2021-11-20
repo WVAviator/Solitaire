@@ -378,7 +378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 126b96932b8449a7b8879c956eba3951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayingCardsInStack: []
+  CardStack: []
   CardSpacing: 0.35
 --- !u!61 &62881494
 BoxCollider2D:
@@ -951,7 +951,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 126b96932b8449a7b8879c956eba3951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayingCardsInStack: []
+  CardStack: []
   CardSpacing: 0.35
 --- !u!61 &329393769
 BoxCollider2D:
@@ -11198,7 +11198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 126b96932b8449a7b8879c956eba3951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayingCardsInStack: []
+  CardStack: []
   CardSpacing: 0.35
 --- !u!61 &569399481
 BoxCollider2D:
@@ -16395,7 +16395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 126b96932b8449a7b8879c956eba3951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayingCardsInStack: []
+  CardStack: []
   CardSpacing: 0.35
 --- !u!61 &788729455
 BoxCollider2D:
@@ -16980,7 +16980,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 126b96932b8449a7b8879c956eba3951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayingCardsInStack: []
+  CardStack: []
   CardSpacing: 0.35
 --- !u!61 &921153429
 BoxCollider2D:
@@ -17658,7 +17658,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e0b1038cf3ec5749b6260cb2929d444, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayingCardsInStack: []
+  CardStack: []
   CardSpacing: 0
 --- !u!61 &1114386044
 BoxCollider2D:
@@ -18032,7 +18032,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e68739364107477c99ad1158906a8251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayingCardsInStack: []
+  CardStack: []
   CardSpacing: 0.35
 --- !u!1 &1162746870
 GameObject:
@@ -18209,7 +18209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e0b1038cf3ec5749b6260cb2929d444, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayingCardsInStack: []
+  CardStack: []
   CardSpacing: 0
 --- !u!61 &1175606141
 BoxCollider2D:
@@ -18513,7 +18513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 126b96932b8449a7b8879c956eba3951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayingCardsInStack: []
+  CardStack: []
   CardSpacing: 0.35
 --- !u!61 &1312953515
 BoxCollider2D:
@@ -19096,7 +19096,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e0b1038cf3ec5749b6260cb2929d444, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayingCardsInStack: []
+  CardStack: []
   CardSpacing: 0
 --- !u!61 &1468476868
 BoxCollider2D:
@@ -19567,6 +19567,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minimumDragDistance: 10
+  doubleClickSpeed: 0.3
   _settingsPanel: {fileID: 6849600}
 --- !u!4 &1674413538
 Transform:
@@ -24982,7 +24983,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 126b96932b8449a7b8879c956eba3951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayingCardsInStack: []
+  CardStack: []
   CardSpacing: 0.35
 --- !u!61 &1920914908
 BoxCollider2D:
@@ -25218,7 +25219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e0b1038cf3ec5749b6260cb2929d444, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayingCardsInStack: []
+  CardStack: []
   CardSpacing: 0
 --- !u!61 &1966697327
 BoxCollider2D:
