@@ -44,7 +44,7 @@ namespace Solitaire
                 if (stackTransfer.IsApproved)
                 {
                     stackTransfer.Process();
-                    OnCardPlaced?.Invoke();
+                    OnCardPicked?.Invoke();
                     return;
                 }
             }

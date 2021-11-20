@@ -6,7 +6,7 @@ namespace Solitaire
     public class InputHandler : MonoBehaviour
     {
         [SerializeField] float minimumDragDistance = 10;
-        [SerializeField] float doubleClickSpeed = 0.1f;
+        [SerializeField] float doubleClickSpeed = 0.3f;
         [SerializeField] GameObject _settingsPanel;
 
         bool _inputAllowed = true;
