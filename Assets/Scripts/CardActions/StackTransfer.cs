@@ -14,9 +14,19 @@ namespace Solitaire
 
         public StackTransfer(PlayingCard card, Collider2D releasedCollider)
         {
+            InitializeTransfer(card, GetStackFromCollider(releasedCollider));
+        }
+
+        public StackTransfer(PlayingCard card, Stack stack)
+        {
+            InitializeTransfer(card, stack);
+        }
+
+        void InitializeTransfer(PlayingCard card, Stack stack)
+        {
             _card = card;
             _oldStack = card.CurrentStack;
-            _newStack = GetStackFromCollider(releasedCollider);
+            _newStack = stack;
             IsApproved = CanBeAddedToStack;
             
             ManageWasteReveal();

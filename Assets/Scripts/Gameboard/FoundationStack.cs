@@ -8,7 +8,7 @@ namespace Solitaire
     {
         public static event Action<List<FoundationStack>> OnAllFoundationsComplete;
 
-        static readonly List<FoundationStack> Foundations = new List<FoundationStack>();
+        public static readonly List<FoundationStack> Foundations = new List<FoundationStack>();
 
         public override bool CanAddCard(PlayingCard card) => 
             CardStack.Count == 0 ? IsAce(card) : IsSequentialSameSuit(card);

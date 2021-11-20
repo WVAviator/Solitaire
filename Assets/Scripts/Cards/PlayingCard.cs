@@ -35,6 +35,21 @@ namespace Solitaire
             CardFlip flip = new CardFlip(_cardVisuals);
             flip.Process();
         }
+
+        public void DoubleClick()
+        {
+            foreach (Stack stack in FoundationStack.Foundations)
+            {
+                StackTransfer stackTransfer = new StackTransfer(this, stack);
+                if (stackTransfer.IsApproved)
+                {
+                    stackTransfer.Process();
+                    OnCardPlaced?.Invoke();
+                    return;
+                }
+            }
+            Click();
+        }
         public void Drag(Vector2 updatedPosition, Vector2 clickedPositionOffset)
         {
             if (!_cardVisuals.IsFlipped) return;

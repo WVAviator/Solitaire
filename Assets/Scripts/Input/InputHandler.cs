@@ -6,6 +6,7 @@ namespace Solitaire
     public class InputHandler : MonoBehaviour
     {
         [SerializeField] float minimumDragDistance = 10;
+        [SerializeField] float doubleClickSpeed = 0.1f;
         [SerializeField] GameObject _settingsPanel;
 
         bool _inputAllowed = true;
@@ -13,6 +14,7 @@ namespace Solitaire
         Camera _mainCamera;
         bool _isDragging;
         Vector2 _currentMouseWorldPosition;
+        float _lastClickTime;
 
         MouseDown _mouseDown;
 
@@ -41,14 +43,18 @@ namespace Solitaire
             
             if (Input.GetMouseButtonUp(0))
             {
-                if (!_isDragging) ProcessClick();
+                if (!_isDragging && !IsDoubleClick()) ProcessClick();
+                else if (!_isDragging && IsDoubleClick()) ProcessDoubleClick();
                 else ProcessRelease();
                 _isDragging = false;
+                _lastClickTime = Time.time;
             }
 
             if (Input.GetMouseButton(0)) _isDragging = MovedEnoughToBeConsideredDragging();
             if (_isDragging) ProcessDrag();
         }
+
+        bool IsDoubleClick() => Time.time - _lastClickTime < doubleClickSpeed;
 
         bool MovedEnoughToBeConsideredDragging() =>
             ((Vector2)Input.mousePosition - _mouseDown.ClickedScreenPosition).sqrMagnitude >
@@ -56,9 +62,10 @@ namespace Solitaire
 
         void SetCurrentMouseWorldPosition() => 
             _currentMouseWorldPosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        
+
 
         void ProcessClick() => _mouseDown.Click(_currentMouseWorldPosition);
+        void ProcessDoubleClick() => _mouseDown.DoubleClick(_currentMouseWorldPosition);
         void ProcessDrag() => _mouseDown.DragTo(_currentMouseWorldPosition);
         void ProcessRelease() => _mouseDown.Release();
 

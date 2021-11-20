@@ -41,6 +41,12 @@ namespace Solitaire
             if (_collider == null) return;
             if (_collider.TryGetComponent(out IClickable clickedSprite)) clickedSprite.Click();
         }
+        
+        public void DoubleClick(Vector2 currentMousePosition)
+        {
+            if (_collider == null) return;
+            if (_collider.TryGetComponent(out IClickable doubleClickedSprite)) doubleClickedSprite.DoubleClick();
+        }
 
         Collider2D GetCollider(Vector3 position, int layer) => Physics2D.OverlapPoint(position, layer);
 

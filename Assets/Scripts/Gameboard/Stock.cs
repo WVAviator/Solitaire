@@ -59,6 +59,8 @@ namespace Solitaire
             else DealCardsToWaste(numberOfCardsToDraw);
         }
 
+        public void DoubleClick() => Click();
+
         public void RestoreWaste()
         {
             int cardsToDraw = Deck.CardsRemaining;
